@@ -14,7 +14,6 @@ annotation class AppComponentScope
     NetworkingModule::class,
     ActivityBuilder::class,
     AndroidInjectionModule::class,
-    AppModule::class,
     AndroidModule::class
 ])
 interface AppComponent : AndroidInjector<CountriesApp>

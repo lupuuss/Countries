@@ -9,16 +9,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 @Module
-object AndroidModule {
+class AndroidModule(private val context: Context) {
 
     @Provides
     @AppComponentScope
-    @JvmStatic
+    fun providesContext() = context
+
+    @Provides
+    @AppComponentScope
     fun providesSchedulersPackage() = SchedulersPackage(Schedulers.io(), AndroidSchedulers.mainThread())
 
     @Provides
     @AppComponentScope
-    @JvmStatic
     fun providesEnvironment(context: Context): EnvironmentInteractor =
         AndroidEnvironmentInteractor(context)
 }

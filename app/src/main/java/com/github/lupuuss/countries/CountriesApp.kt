@@ -2,6 +2,7 @@ package com.github.lupuuss.countries
 
 import android.app.Activity
 import android.app.Application
+import com.github.lupuuss.countries.di.AndroidModule
 import com.github.lupuuss.countries.di.DaggerAppComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -15,11 +16,14 @@ class CountriesApp : Application(), HasActivityInjector {
 
     override fun activityInjector(): DispatchingAndroidInjector<Activity>? = dispatchingAndroidInjector
 
-
     override fun onCreate() {
         Timber.plant(Timber.DebugTree())
         super.onCreate()
-        DaggerAppComponent.create().inject(this)
+        DaggerAppComponent
+            .builder()
+            .androidModule(AndroidModule(this))
+            .build()
+            .inject(this)
     }
 
     companion object {
