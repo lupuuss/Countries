@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.lupuuss.countries.R
+import com.github.lupuuss.countries.model.dataclass.BasicCountryInfo
+import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -24,6 +26,14 @@ class MainActivity : AppCompatActivity(), MainView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
+    }
+
+    override fun displayCountriesList(countries: List<BasicCountryInfo>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showErrorMsg(errorMsg: ErrorMessage) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun postString(msg: String) {

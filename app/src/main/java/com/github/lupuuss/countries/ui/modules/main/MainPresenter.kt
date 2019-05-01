@@ -3,20 +3,14 @@ package com.github.lupuuss.countries.ui.modules.main
 import com.github.lupuuss.countries.base.BasePresenter
 import com.github.lupuuss.countries.model.countries.CountriesManager
 import com.github.lupuuss.countries.model.dataclass.BasicCountryInfo
-import timber.log.Timber
+import com.github.lupuuss.countries.model.dataclass.ErrorMessage
+import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
-    private val countriesManager: CountriesManager
+    private val countriesManager: CountriesManager,
+    private val environment: EnvironmentInteractor
 ) : BasePresenter<MainView>(), CountriesManager.CountriesListChangedListener {
-
-    override fun onCountriesListChanged(countries: List<BasicCountryInfo>) {
-        Timber.d(countries.toString())
-    }
-
-    override fun onCountriesListRequestFail(exception: Throwable) {
-        Timber.d(exception)
-    }
 
     override fun attachView(view: MainView) {
         super.attachView(view)
@@ -29,5 +23,23 @@ class MainPresenter @Inject constructor(
 
         countriesManager.removeOnCountriesListChangedListener(this)
         super.detachView()
+    }
+
+    override fun onCountriesListChanged(countries: List<BasicCountryInfo>) {
+
+        view?.displayCountriesList(countries)
+    }
+
+    override fun onCountriesListRequestFail(exception: Throwable) {
+
+        if (environment.isNetworkAvailable()) {
+
+            view?.showErrorMsg(ErrorMessage.UNKNOWN)
+            view?.postString(exception.localizedMessage)
+
+        } else {
+
+            view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
+        }
     }
 }
