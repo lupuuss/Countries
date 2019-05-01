@@ -1,6 +1,6 @@
 package com.github.lupuuss.countries.di
 
-import com.github.lupuuss.countries.COUNTRIES_API_URL
+import com.github.lupuuss.countries.CountriesApp
 import com.github.lupuuss.countries.model.countries.CountriesApi
 import com.google.gson.Gson
 import dagger.Module
@@ -19,7 +19,7 @@ object NetworkingModule {
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl(COUNTRIES_API_URL)
+            .baseUrl(CountriesApp.API_URL)
             .build()
             .create(CountriesApi::class.java)
 
