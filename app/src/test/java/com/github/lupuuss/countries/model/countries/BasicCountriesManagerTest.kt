@@ -1,7 +1,7 @@
 package com.github.lupuuss.countries.model.countries
 
 import com.github.lupuuss.countries.di.SchedulersPackage
-import com.github.lupuuss.countries.model.dataclass.BasicCountryInfo
+import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.internal.operators.single.SingleError
 import io.reactivex.internal.operators.single.SingleJust
@@ -11,7 +11,7 @@ import org.junit.Test
 
 class BasicCountriesManagerTestRequestOk {
 
-    private val sampleList = listOf(BasicCountryInfo("Example Country", "flag link"))
+    private val sampleList = listOf(ShortCountry("Example Country", "flag link"))
 
     private val countriesApi: CountriesApi = mock {
         on { getCountries() }.then { SingleJust(sampleList) }
@@ -77,7 +77,7 @@ class BasicCountriesManagerTestRequestFail {
     private val sampleError =  Throwable("Error")
 
     private val countriesApi: CountriesApi = mock {
-        on { getCountries() }.then { SingleError<List<BasicCountryInfo>>{sampleError} }
+        on { getCountries() }.then { SingleError<List<ShortCountry>>{sampleError} }
     }
     private val countriesManager: BasicCountriesManager =
         BasicCountriesManager(

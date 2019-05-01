@@ -1,11 +1,11 @@
 package com.github.lupuuss.countries.model.countries
 
-import com.github.lupuuss.countries.model.dataclass.BasicCountryInfo
+import com.github.lupuuss.countries.model.dataclass.ShortCountry
 
 interface CountriesManager {
 
     interface CountriesListChangedListener {
-        fun onCountriesListChanged(countries: List<BasicCountryInfo>)
+        fun onCountriesListChanged(countries: List<ShortCountry>)
         fun onCountriesListRequestFail(exception: Throwable)
     }
 

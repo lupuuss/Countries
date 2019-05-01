@@ -2,14 +2,14 @@ package com.github.lupuuss.countries.model.countries
 
 import android.annotation.SuppressLint
 import com.github.lupuuss.countries.di.SchedulersPackage
-import com.github.lupuuss.countries.model.dataclass.BasicCountryInfo
+import com.github.lupuuss.countries.model.dataclass.ShortCountry
 
 class BasicCountriesManager(
     private val countriesApi: CountriesApi,
     private val schedulersPackage: SchedulersPackage
 ) : CountriesManager {
 
-    private var countryList: List<BasicCountryInfo>? = null
+    private var countryList: List<ShortCountry>? = null
     private var lastError: Throwable? = null
     private val listeners: MutableList<CountriesManager.CountriesListChangedListener> = mutableListOf()
 

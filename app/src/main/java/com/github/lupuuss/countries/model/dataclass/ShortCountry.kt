@@ -1,6 +1,6 @@
 package com.github.lupuuss.countries.model.dataclass
 
-class BasicCountryInfo(
+class ShortCountry(
     val name: String,
     val flag: String
 ) {

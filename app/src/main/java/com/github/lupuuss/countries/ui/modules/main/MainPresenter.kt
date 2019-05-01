@@ -2,7 +2,7 @@ package com.github.lupuuss.countries.ui.modules.main
 
 import com.github.lupuuss.countries.base.BasePresenter
 import com.github.lupuuss.countries.model.countries.CountriesManager
-import com.github.lupuuss.countries.model.dataclass.BasicCountryInfo
+import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
 import javax.inject.Inject
@@ -25,7 +25,7 @@ class MainPresenter @Inject constructor(
         super.detachView()
     }
 
-    override fun onCountriesListChanged(countries: List<BasicCountryInfo>) {
+    override fun onCountriesListChanged(countries: List<ShortCountry>) {
 
         view?.displayCountriesList(countries)
     }

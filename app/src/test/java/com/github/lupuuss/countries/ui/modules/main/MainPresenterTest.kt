@@ -1,7 +1,7 @@
 package com.github.lupuuss.countries.ui.modules.main
 
 import com.github.lupuuss.countries.model.countries.CountriesManager
-import com.github.lupuuss.countries.model.dataclass.BasicCountryInfo
+import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
 import com.nhaarman.mockitokotlin2.*
@@ -39,7 +39,7 @@ class MainPresenterTestInternetAvailable {
 
     @Test
     fun onCountriesListChanged_shouldDisplayListOnView() {
-        val list: List<BasicCountryInfo> = listOf()
+        val list: List<ShortCountry> = listOf()
 
         presenter.onCountriesListChanged(list)
 
