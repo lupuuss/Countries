@@ -10,10 +10,11 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-class NetworkingModule {
+object NetworkingModule {
 
     @Provides
     @MainComponentScope
+    @JvmStatic
     fun providesCountriesApi(gson: Gson): CountriesApi =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -24,5 +25,6 @@ class NetworkingModule {
 
     @Provides
     @MainComponentScope
+    @JvmStatic
     fun providesGson(): Gson = Gson()
 }
