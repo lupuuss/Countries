@@ -1,7 +1,9 @@
 package com.github.lupuuss.countries.di
 
 import com.github.lupuuss.countries.CountriesApp
+import com.github.lupuuss.countries.model.countries.BasicCountriesManager
 import com.github.lupuuss.countries.model.countries.CountriesApi
+import com.github.lupuuss.countries.model.countries.CountriesManager
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -13,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetworkingModule {
 
     @Provides
-    @MainComponentScope
+    @AppComponentScope
     @JvmStatic
     fun providesCountriesApi(gson: Gson): CountriesApi =
         Retrofit.Builder()
@@ -24,7 +26,13 @@ object NetworkingModule {
             .create(CountriesApi::class.java)
 
     @Provides
-    @MainComponentScope
+    @AppComponentScope
     @JvmStatic
     fun providesGson(): Gson = Gson()
+
+    @Provides
+    @AppComponentScope
+    @JvmStatic
+    fun providesCountriesManager(countriesApi: CountriesApi, schedulersPackage: SchedulersPackage): CountriesManager =
+        BasicCountriesManager(countriesApi, schedulersPackage)
 }
