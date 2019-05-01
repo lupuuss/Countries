@@ -28,6 +28,8 @@ class MainPresenter @Inject constructor(
     override fun onCountriesListChanged(countries: List<ShortCountry>) {
 
         view?.displayCountriesList(countries)
+        view?.isErrorMessageVisible = false
+        view?.isProgressBarVisible = false
     }
 
     override fun onCountriesListRequestFail(exception: Throwable) {
@@ -41,5 +43,15 @@ class MainPresenter @Inject constructor(
 
             view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
         }
+        view?.isErrorMessageVisible = true
+        view?.isProgressBarVisible = false
+    }
+
+    fun onClickRefreshButton() {
+
+        view?.clearCountriesList()
+        view?.isErrorMessageVisible = false
+        view?.isProgressBarVisible = true
+        countriesManager.refreshList()
     }
 }

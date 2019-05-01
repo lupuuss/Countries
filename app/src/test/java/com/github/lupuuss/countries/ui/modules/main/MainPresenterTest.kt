@@ -44,6 +44,8 @@ class MainPresenterTestInternetAvailable {
         presenter.onCountriesListChanged(list)
 
         verify(view, times(1)).displayCountriesList(list)
+        verify(view, times(1)).isProgressBarVisible = false
+        verify(view, times(1)).isErrorMessageVisible = false
     }
 
     @Test
@@ -54,6 +56,18 @@ class MainPresenterTestInternetAvailable {
 
         verify(view, times(1)).showErrorMsg(ErrorMessage.UNKNOWN)
         verify(view, times(1)).postString(eq("Error"))
+        verify(view, times(1)).isProgressBarVisible = false
+        verify(view, times(1)).isErrorMessageVisible = true
+    }
+
+    @Test
+    fun onClickRefreshButton_shouldCauseListRefresh() {
+
+        presenter.onClickRefreshButton()
+
+        verify(view, times(1)).isProgressBarVisible = true
+        verify(view, times(1)).isErrorMessageVisible = false
+        verify(countriesManager, times(1)).refreshList()
     }
 }
 
