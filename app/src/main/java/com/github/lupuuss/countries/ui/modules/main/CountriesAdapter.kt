@@ -11,8 +11,8 @@ class CountriesAdapter : RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
 
     private var dataSet: List<ShortCountry>? = null
 
-    class ViewHolder(private val layout: ViewGroup) : RecyclerView.ViewHolder(layout) {
-        val countryName = layout.findViewById<TextView>(R.id.countryNameTextView)
+    class ViewHolder(layout: ViewGroup) : RecyclerView.ViewHolder(layout) {
+        val countryName: TextView = layout.findViewById(R.id.countryNameTextView)
     }
 
     fun clearAndNotify() {
