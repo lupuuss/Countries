@@ -27,8 +27,8 @@ class BasicCountriesManager(
     private fun requestCountriesList() {
 
         countriesApi.getCountries()
-            .observeOn(schedulersPackage.backScheduler)
-            .subscribeOn(schedulersPackage.frontScheduler)
+            .observeOn(schedulersPackage.frontScheduler)
+            .subscribeOn(schedulersPackage.backScheduler)
             .subscribe { countries, throwable ->
 
                 countryList = countries
