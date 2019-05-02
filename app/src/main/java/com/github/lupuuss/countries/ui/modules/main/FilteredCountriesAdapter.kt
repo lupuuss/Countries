@@ -16,6 +16,7 @@ class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.V
         fun bind(shortCountry: ShortCountry) {
 
             binding.country = shortCountry
+            binding.executePendingBindings()
         }
     }
 
@@ -73,7 +74,7 @@ class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.V
             countriesList?.let { notNullList ->
 
                 val filtered = notNullList.filter {
-                    it.name.toLowerCase().contains(query)
+                    it.name.toLowerCase().contains(query.toLowerCase())
                 }.toList()
 
                 dataSet.replaceAll(filtered)
