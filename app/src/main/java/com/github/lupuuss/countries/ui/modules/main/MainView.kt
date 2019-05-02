@@ -14,4 +14,5 @@ interface MainView : BaseView {
     fun onClick(p0: View?)
     fun filterCountriesList(query: String)
     fun clearCountriesList()
+    fun navigateToCountryDetails(name: String)
 }

@@ -59,4 +59,8 @@ class MainPresenter @Inject constructor(
 
         view?.filterCountriesList(newText ?: "")
     }
+
+    fun onCountryClick(name: String) {
+        view?.navigateToCountryDetails(name)
+    }
 }

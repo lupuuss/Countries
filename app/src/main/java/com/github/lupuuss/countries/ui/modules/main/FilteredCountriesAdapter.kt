@@ -1,6 +1,7 @@
 package com.github.lupuuss.countries.ui.modules.main
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
@@ -10,8 +11,13 @@ import java.text.Collator
 
 class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.ViewHolder>() {
 
+    interface OnCountryClickListener {
+        fun onCountryClick(view: View, name: String, position: Int)
+    }
 
-    class ViewHolder(private val binding: ActivityMainCountriesItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    var onCountryClickListener: OnCountryClickListener? = null
+
+    class ViewHolder(val binding: ActivityMainCountriesItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(shortCountry: ShortCountry) {
 
@@ -100,5 +106,9 @@ class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.V
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.bind(dataSet[position])
+        holder.binding.root.setOnClickListener {
+
+            onCountryClickListener?.onCountryClick(it, holder.binding.country!!.name, position)
+        }
     }
 }

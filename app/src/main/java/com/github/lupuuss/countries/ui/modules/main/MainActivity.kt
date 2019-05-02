@@ -14,7 +14,8 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, SearchView.OnQueryTextListener {
+class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, SearchView.OnQueryTextListener,
+    FilteredCountriesAdapter.OnCountryClickListener {
 
     @Inject
     lateinit var presenter: MainPresenter
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, Search
         errorMessageTextView.isVisible = false
         refreshButton.setOnClickListener(this)
         countriesSearchView.setOnQueryTextListener(this)
+        countriesAdapter.onCountryClickListener = this
     }
 
     override fun onDestroy() {
@@ -95,6 +97,14 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, Search
             ErrorMessage.NO_INTERNET_CONNECTION ->  getString(R.string.noInternetConnection)
             ErrorMessage.UNKNOWN -> getString(R.string.somethingGoesWrong)
         }
+    }
+
+    override fun onCountryClick(view: View, name: String, position: Int) {
+        presenter.onCountryClick(name)
+    }
+
+    override fun navigateToCountryDetails(name: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun postString(msg: String) {
