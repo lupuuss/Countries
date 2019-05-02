@@ -12,5 +12,6 @@ interface MainView : BaseView {
     fun displayCountriesList(countries: List<ShortCountry>)
     fun showErrorMsg(errorMsg: ErrorMessage)
     fun onClick(p0: View?)
+    fun filterCountriesList(query: String)
     fun clearCountriesList()
 }

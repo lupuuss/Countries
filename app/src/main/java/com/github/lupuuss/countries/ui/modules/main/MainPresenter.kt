@@ -27,9 +27,9 @@ class MainPresenter @Inject constructor(
 
     override fun onCountriesListChanged(countries: List<ShortCountry>) {
 
-        view?.displayCountriesList(countries)
         view?.isErrorMessageVisible = false
         view?.isProgressBarVisible = false
+        view?.displayCountriesList(countries)
     }
 
     override fun onCountriesListRequestFail(exception: Throwable) {
@@ -53,5 +53,10 @@ class MainPresenter @Inject constructor(
         view?.isErrorMessageVisible = false
         view?.isProgressBarVisible = true
         countriesManager.refreshList()
+    }
+
+    fun onQueryTextChanged(newText: String?) {
+
+        view?.filterCountriesList(newText ?: "")
     }
 }

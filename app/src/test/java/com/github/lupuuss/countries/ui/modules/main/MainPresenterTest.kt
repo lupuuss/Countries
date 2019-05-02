@@ -69,6 +69,14 @@ class MainPresenterTestInternetAvailable {
         verify(view, times(1)).isErrorMessageVisible = false
         verify(countriesManager, times(1)).refreshList()
     }
+
+    @Test
+    fun onQueryTextChanged_shouldFilterView() {
+
+        presenter.onQueryTextChanged("sample")
+
+        verify(view, times(1)).filterCountriesList(eq("sample"))
+    }
 }
 
 class MainPresenterTestInternetNotAvailable {

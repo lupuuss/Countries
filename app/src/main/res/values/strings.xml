@@ -3,4 +3,5 @@
     <string name="noInternetConnection">No internet connection.</string>
     <string name="refresh">Refresh</string>
     <string name="somethingGoesWrong">Something goes wrong…</string>
+    <string name="search">Search…</string>
 </resources>

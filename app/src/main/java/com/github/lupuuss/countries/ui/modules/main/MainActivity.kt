@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.lupuuss.countries.R
@@ -13,12 +14,12 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainView, View.OnClickListener {
+class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, SearchView.OnQueryTextListener {
 
     @Inject
     lateinit var presenter: MainPresenter
 
-    private var countriesAdapter: CountriesAdapter = CountriesAdapter()
+    private var countriesAdapter: FilteredCountriesAdapter = FilteredCountriesAdapter()
 
     override var isProgressBarVisible: Boolean = true
         get() = countriesProgressBar?.isVisible ?: field
@@ -54,7 +55,10 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener {
             adapter = countriesAdapter
         }
 
+        refreshButton.isVisible = false
+        errorMessageTextView.isVisible = false
         refreshButton.setOnClickListener(this)
+        countriesSearchView.setOnQueryTextListener(this)
     }
 
     override fun onDestroy() {
@@ -62,13 +66,27 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener {
         presenter.detachView()
     }
 
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+
+        presenter.onQueryTextChanged(newText)
+        return true
+    }
+
     override fun displayCountriesList(countries: List<ShortCountry>) {
-        countriesAdapter.setDataAndNotify(countries)
+        countriesAdapter.setCountries(countries)
+    }
+
+    override fun filterCountriesList(query: String) {
+        countriesAdapter.filter(query)
+        countriesRecyclerView.scrollToPosition(0)
     }
 
     override fun clearCountriesList() {
-
-        countriesAdapter.clearAndNotify()
+        countriesAdapter.clearCountries()
     }
 
     override fun showErrorMsg(errorMsg: ErrorMessage) {
