@@ -6,11 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="textColorDark">@color/textColorDark</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="backgroundColor">@color/backgroundColor</item>
+        <item name="countriesDividerColor">@color/countriesDividerColor</item>
     </style>
 
     <style name="AppTheme.CountryDetail" parent="AppTheme">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/textColorDark</item>
+        <item name="android:textColor">?textColorDark</item>
     </style>
 
 </resources>
