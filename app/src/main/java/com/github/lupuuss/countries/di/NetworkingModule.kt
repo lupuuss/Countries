@@ -1,5 +1,6 @@
 package com.github.lupuuss.countries.di
 
+import com.ahmadrosid.svgloader.SvgLoader
 import com.github.lupuuss.countries.CountriesApp
 import com.github.lupuuss.countries.model.countries.BasicCountriesManager
 import com.github.lupuuss.countries.model.countries.CountriesApi
@@ -35,4 +36,9 @@ object NetworkingModule {
     @JvmStatic
     fun providesCountriesManager(countriesApi: CountriesApi, schedulersPackage: SchedulersPackage): CountriesManager =
         BasicCountriesManager(countriesApi, schedulersPackage)
+
+    @Provides
+    @AppComponentScope
+    @JvmStatic
+    fun providesSvgLoader() = SvgLoader.pluck()
 }

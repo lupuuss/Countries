@@ -2,7 +2,9 @@ package com.github.lupuuss.countries.model.countries
 
 import android.annotation.SuppressLint
 import com.github.lupuuss.countries.di.SchedulersPackage
+import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
+import io.reactivex.Single
 
 class BasicCountriesManager(
     private val countriesApi: CountriesApi,
@@ -49,6 +51,13 @@ class BasicCountriesManager(
     override fun refreshList() {
 
         requestCountriesList()
+    }
+
+    override fun getCountryDetails(countryName: String): Single<List<RawCountryDetails>> {
+        return countriesApi
+            .getCountryDetails(countryName)
+            .observeOn(schedulersPackage.frontScheduler)
+            .subscribeOn(schedulersPackage.backScheduler)
     }
 
     override fun addOnCountriesListChangedListener(onCountriesListChangedListener: CountriesManager.CountriesListChangedListener) {

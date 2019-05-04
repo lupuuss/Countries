@@ -1,6 +1,8 @@
 package com.github.lupuuss.countries.model.countries
 
+import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
+import io.reactivex.Single
 
 interface CountriesManager {
 
@@ -11,6 +13,7 @@ interface CountriesManager {
 
     fun provideList()
     fun refreshList()
+    fun getCountryDetails(countryName: String): Single<List<RawCountryDetails>>
     fun addOnCountriesListChangedListener(onCountriesListChangedListener: CountriesListChangedListener)
     fun removeOnCountriesListChangedListener(onCountriesListChangedListener: CountriesListChangedListener)
 }

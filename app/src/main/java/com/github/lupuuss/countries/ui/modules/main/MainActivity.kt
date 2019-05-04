@@ -1,5 +1,6 @@
 package com.github.lupuuss.countries.ui.modules.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
+import com.github.lupuuss.countries.ui.modules.countrydetails.DetailsActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -104,7 +106,9 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, Search
     }
 
     override fun navigateToCountryDetails(name: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra(DetailsActivity.COUNTRY_NAME, name)
+        startActivity(intent)
     }
 
     override fun postString(msg: String) {

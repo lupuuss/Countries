@@ -4,4 +4,12 @@
     <string name="refresh">Refresh</string>
     <string name="somethingGoesWrong">Something goes wrong…</string>
     <string name="search">Search…</string>
+    <string name="details">Details</string>
+    <string name="nativeName">Native name: %1$s</string>
+    <string name="population">Population: %1$s</string>
+    <string name="capital">Capital: %1$s</string>
+    <string name="area">Area: %1$s</string>
+    <string name="gini">Gini ratio: %1$s</string>
+    <string name="demonym">Demonym: %1$s</string>
+    <string name="countryFlag">Country flag</string>
 </resources>
