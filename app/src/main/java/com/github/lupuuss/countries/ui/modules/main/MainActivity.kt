@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, Search
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        presenter.attachView(this)
         countriesRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = countriesAdapter
@@ -63,6 +62,7 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, Search
         refreshButton.setOnClickListener(this)
         countriesSearchView.setOnQueryTextListener(this)
         countriesAdapter.onCountryClickListener = this
+        presenter.attachView(this)
     }
 
     override fun onDestroy() {
