@@ -41,10 +41,13 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback, DetailsView {
 
         countryName = intent!!.extras!!.getString(COUNTRY_NAME)!!
         countryNameTextView.text = countryName
+
         presenter.attachView(this)
+
+        presenter.state = savedInstanceState?.getString(SAVED_COUNTRY_DATA)
+
         presenter.onDisplayCountryDetailsRequest(countryName)
     }
-
 
     @SuppressLint("SetTextI18n")
     override fun displayCountryDetails(countryDetails: RawCountryDetails) {
@@ -135,6 +138,12 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback, DetailsView {
         mMap = googleMap
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+
+        outState?.putString(SAVED_COUNTRY_DATA, presenter.state)
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
@@ -143,5 +152,6 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback, DetailsView {
     companion object {
 
         const val COUNTRY_NAME = "countryName"
+        private const val SAVED_COUNTRY_DATA = "savedCountryData"
     }
 }
