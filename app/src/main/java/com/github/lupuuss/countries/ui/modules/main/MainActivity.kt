@@ -3,20 +3,21 @@ package com.github.lupuuss.countries.ui.modules.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.lupuuss.countries.R
+import com.github.lupuuss.countries.base.DynamicContentActivity
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
-import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import com.github.lupuuss.countries.ui.modules.details.DetailsActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, SearchView.OnQueryTextListener,
+class MainActivity : DynamicContentActivity(), MainView, View.OnClickListener, SearchView.OnQueryTextListener,
     FilteredCountriesAdapter.OnCountryClickListener {
 
     @Inject
@@ -24,25 +25,22 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, Search
 
     private var countriesAdapter: FilteredCountriesAdapter = FilteredCountriesAdapter()
 
-    override var isProgressBarVisible: Boolean = true
-        get() = countriesProgressBar?.isVisible ?: field
-        set(value) {
-            field = value
-            countriesProgressBar?.isVisible = value
-        }
+    override val errorTextView: TextView?
+        get() = errorMessageTextView
 
-    override var isErrorMessageVisible: Boolean = false
-        get() = errorMessageTextView?.isVisible ?: field
-        set(value) {
-            field = value
-            errorMessageTextView?.isVisible = value
-            refreshButton?.isVisible = value
-        }
+    override val progressBar: ProgressBar?
+        get() = countriesProgressBar
+
+    override val refreshButton: Button?
+        get() = refreshButtonView
+
+    override val content: View?
+        get() = countriesRecyclerView
 
     override fun onClick(p0: View?) {
 
         when (p0!!.id) {
-            R.id.refreshButton -> presenter.onClickRefreshButton()
+            R.id.refreshButtonView -> presenter.onClickRefreshButton()
         }
     }
 
@@ -57,9 +55,10 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, Search
             adapter = countriesAdapter
         }
 
-        refreshButton.isVisible = false
-        errorMessageTextView.isVisible = false
-        refreshButton.setOnClickListener(this)
+
+        isErrorMessageVisible = false
+        refreshButton?.setOnClickListener(this)
+
         countriesSearchView.setOnQueryTextListener(this)
         countriesAdapter.onCountryClickListener = this
         presenter.attachView(this)
@@ -93,13 +92,6 @@ class MainActivity : AppCompatActivity(), MainView, View.OnClickListener, Search
         countriesAdapter.clearCountries()
     }
 
-    override fun showErrorMsg(errorMsg: ErrorMessage) {
-
-        errorMessageTextView.text = when (errorMsg) {
-            ErrorMessage.NO_INTERNET_CONNECTION ->  getString(R.string.noInternetConnection)
-            ErrorMessage.UNKNOWN -> getString(R.string.somethingGoesWrong)
-        }
-    }
 
     override fun onCountryClick(view: View, name: String, position: Int) {
         presenter.onCountryClick(name)

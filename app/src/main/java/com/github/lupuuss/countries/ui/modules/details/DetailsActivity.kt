@@ -1,8 +1,10 @@
 package com.github.lupuuss.countries.ui.modules.details
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.ahmadrosid.svgloader.SvgLoader
 import com.github.lupuuss.countries.flatList
@@ -13,11 +15,12 @@ import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
 import androidx.core.text.toSpanned
 import com.github.lupuuss.countries.R
+import com.github.lupuuss.countries.base.DynamicContentActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 
-class DetailsActivity : AppCompatActivity(), OnMapReadyCallback, DetailsView {
+class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsView, View.OnClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var countryName: String
@@ -28,6 +31,24 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback, DetailsView {
     @Inject
     lateinit var svgLoader: SvgLoader
 
+    override val errorTextView: TextView?
+        get() = errorMessageTextView
+
+    override val progressBar: ProgressBar?
+        get() = detailsProgressBar
+
+    override val content: View?
+        get() = detailsContainer
+
+    override val refreshButton: Button?
+        get() = refreshButtonView
+
+    override fun onClick(v: View?) {
+
+        when (v!!.id) {
+            R.id.refreshButtonView -> presenter.onClickRefreshButton()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,6 +62,8 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback, DetailsView {
 
         countryName = intent!!.extras!!.getString(COUNTRY_NAME)!!
         countryNameTextView.text = countryName
+
+        refreshButton?.setOnClickListener(this)
 
         presenter.attachView(this)
 

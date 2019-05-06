@@ -2,11 +2,11 @@ package com.github.lupuuss.countries.ui.modules.details
 
 import com.github.lupuuss.countries.base.BasePresenter
 import com.github.lupuuss.countries.model.countries.CountriesManager
+import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
 import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiConsumer
-import timber.log.Timber
 import javax.inject.Inject
 
 class DetailsPresenter @Inject constructor(
@@ -14,20 +14,13 @@ class DetailsPresenter @Inject constructor(
      private val gson: Gson
 ) : BasePresenter<DetailsView>(), BiConsumer<List<RawCountryDetails>, Throwable> {
 
+    private var lastRequest: String? = null
     private var subscription: Disposable? = null
     var state: String? = null
 
-    fun onDisplayCountryDetailsRequest(countryName: String) {
+    private fun sendRequest(countryName: String) {
 
-        // if state is saved don't call API
-
-        if (state != null) {
-
-            // simulate successful response
-
-            this.accept(listOf(gson.fromJson(state, RawCountryDetails::class.java)), null)
-            return
-        }
+        lastRequest = countryName
 
         subscription?.dispose()
 
@@ -39,19 +32,60 @@ class DetailsPresenter @Inject constructor(
             .subscribe(this)
     }
 
+    fun onDisplayCountryDetailsRequest(countryName: String) {
+
+        // if state is saved don't call API
+
+        lastRequest = countryName
+
+        if (state != null) {
+
+            // simulate successful response
+
+            this.accept(listOf(gson.fromJson(state, RawCountryDetails::class.java)), null)
+            return
+        }
+
+        sendRequest(countryName)
+    }
+
     override fun accept(result: List<RawCountryDetails>?, error: Throwable?) {
 
+
         result?.let {
+
+            view?.isProgressBarVisible = false
+            view?.isErrorMessageVisible = false
+            view?.isContentVisible = true
+
             val countryDetails = it.first()
+
             view?.displayCountryDetails(countryDetails)
             view?.displayFlag(countryDetails.flag)
         }
 
-        error?.let { Timber.d(it) }
+        error?.let {
+
+            view?.isProgressBarVisible = false
+            view?.isErrorMessageVisible = true
+            view?.isContentVisible = false
+            view?.showErrorMsg(ErrorMessage.UNKNOWN)
+        }
     }
 
     override fun detachView() {
         super.detachView()
         subscription?.dispose()
+    }
+
+    fun onClickRefreshButton() {
+
+        lastRequest?.let {
+
+            view?.isErrorMessageVisible = false
+            view?.isProgressBarVisible = true
+            view?.isContentVisible = false
+            sendRequest(it)
+        }
     }
 }
