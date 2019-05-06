@@ -23,7 +23,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="270dp"
-        tools:context=".ui.modules.countrydetails.DetailsActivity"
+        tools:context=".ui.modules.details.DetailsActivity"
         app:layout_constraintTop_toBottomOf="@id/detailsToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

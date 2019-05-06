@@ -1,4 +1,4 @@
-package com.github.lupuuss.countries.ui.modules.countrydetails
+package com.github.lupuuss.countries.ui.modules.details
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +11,6 @@ import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
-import android.text.Html
-import android.os.Build
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.Spanned
 import androidx.core.text.toSpanned
 import com.github.lupuuss.countries.R
 import com.google.android.gms.maps.GoogleMap

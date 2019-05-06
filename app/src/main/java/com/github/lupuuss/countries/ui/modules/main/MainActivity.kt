@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
-import com.github.lupuuss.countries.ui.modules.countrydetails.DetailsActivity
+import com.github.lupuuss.countries.ui.modules.details.DetailsActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject

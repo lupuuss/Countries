@@ -1,4 +1,4 @@
-package com.github.lupuuss.countries.ui.modules.countrydetails
+package com.github.lupuuss.countries.ui.modules.details
 
 import com.github.lupuuss.countries.base.BaseView
 import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
