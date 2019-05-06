@@ -1,7 +1,7 @@
 package com.github.lupuuss.countries.model.dataclass
 import com.google.gson.annotations.SerializedName
 
-
+@Suppress("unused", "MemberVisibilityCanBePrivate", "SpellCheckingInspection")
 class RawCountryDetails(
     val name: String,
     val alpha2Code: String,
@@ -62,9 +62,19 @@ class RawCountryDetails(
         val code: String,
         val name: String,
         val symbol: String
-    )
+    ) {
+        fun toCurrencyString(): String {
 
-    fun toCountryDetails() = CountryDetails(
-        name, area, capital, demonym, flag, gini, nativeName, numericCode, population, region, subregion
-    )
+            var final = ""
+
+            if (name != "") {
+                final += name
+            }
+
+            if (symbol != "") {
+                final += " ($symbol)"
+            }
+            return final
+        }
+    }
 }

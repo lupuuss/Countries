@@ -7,4 +7,5 @@
     <color name="textColorDark">#363636</color>
     <color name="countriesDividerColor">#DADADA</color>
     <color name="backgroundColor">#FFF</color>
+    <color name="colorPrimaryLight">#4D008577</color>
 </resources>

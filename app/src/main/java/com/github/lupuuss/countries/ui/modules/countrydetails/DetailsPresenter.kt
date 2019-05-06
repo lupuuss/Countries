@@ -25,7 +25,7 @@ class DetailsPresenter @Inject constructor(
     override fun accept(result: List<RawCountryDetails>?, error: Throwable?) {
 
         result?.let {
-            val countryDetails = it.first().toCountryDetails()
+            val countryDetails = it.first()
             view?.displayCountryDetails(countryDetails)
             view?.displayFlag(countryDetails.flag)
         }

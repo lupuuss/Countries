@@ -10,11 +10,6 @@
         <item name="android:textColor">@color/textColor</item>
         <item name="backgroundColor">@color/backgroundColor</item>
         <item name="countriesDividerColor">@color/countriesDividerColor</item>
+        <item name="colorPrimaryLight">@color/colorPrimaryLight</item>
     </style>
-
-    <style name="AppTheme.CountryDetail" parent="AppTheme">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">?textColorDark</item>
-    </style>
-
 </resources>

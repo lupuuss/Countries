@@ -3,4 +3,5 @@
     <attr name="textColorDark" format="color|reference"/>
     <attr name="backgroundColor" format="color|reference"/>
     <attr name="countriesDividerColor" format="color|reference"/>
+    <attr name="colorPrimaryLight" format="color|reference"/>
 </resources>
