@@ -16,6 +16,7 @@ import javax.inject.Inject
 import androidx.core.text.toSpanned
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.base.DynamicContentActivity
+import com.github.lupuuss.countries.kotlin.SafeVar
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,7 +25,10 @@ import com.google.android.gms.maps.model.LatLng
 
 class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsView, View.OnClickListener {
 
-    private lateinit var mMap: GoogleMap
+    /**
+     * SafeVar avoids uninitialized variable error when map loads to slow.
+     */
+    private val map = SafeVar<GoogleMap>()
     private lateinit var countryName: String
 
     @Inject
@@ -76,7 +80,10 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
     override fun centerMap(latLng: LatLng, zoom: Float) {
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
+        map.use {
+
+            it.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -165,7 +172,8 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+
+        map.value = googleMap
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
