@@ -16,9 +16,12 @@ import javax.inject.Inject
 import androidx.core.text.toSpanned
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.base.DynamicContentActivity
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsView, View.OnClickListener {
 
@@ -70,6 +73,11 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
         presenter.state = savedInstanceState?.getString(SAVED_COUNTRY_DATA)
 
         presenter.onDisplayCountryDetailsRequest(countryName)
+    }
+
+    override fun centerMap(latLng: LatLng, zoom: Float) {
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
     }
 
     @SuppressLint("SetTextI18n")
