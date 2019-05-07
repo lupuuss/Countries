@@ -2,6 +2,7 @@ package com.github.lupuuss.countries.ui.modules.details
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -52,6 +53,7 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
     override fun onClick(v: View?) {
 
         when (v!!.id) {
+
             R.id.refreshButtonView -> presenter.resendDetailsRequest()
         }
     }
@@ -61,6 +63,10 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
+
+        setSupportActionBar(detailsToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -76,6 +82,24 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
         presenter.state = savedInstanceState?.getString(SAVED_COUNTRY_DATA)
 
         presenter.provideCountryDetails(countryName)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+
+        map.value = googleMap
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        if (item?.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
     override fun centerMap(latLng: LatLng, zoom: Float) {
@@ -169,11 +193,6 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
     override fun displayFlag(flagLink: String) {
 
         svgLoader.with(this).load(flagLink, flagImage)
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-
-        map.value = googleMap
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

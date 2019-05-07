@@ -11,5 +11,6 @@
         <item name="backgroundColor">@color/backgroundColor</item>
         <item name="countriesDividerColor">@color/countriesDividerColor</item>
         <item name="colorPrimaryLight">@color/colorPrimaryLight</item>
+        <item name="colorControlNormal">?android:textColor</item>
     </style>
 </resources>
