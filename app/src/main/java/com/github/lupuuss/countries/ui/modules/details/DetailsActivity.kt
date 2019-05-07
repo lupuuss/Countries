@@ -21,7 +21,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 
 class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsView, View.OnClickListener {
 
@@ -49,7 +48,7 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
     override fun onClick(v: View?) {
 
         when (v!!.id) {
-            R.id.refreshButtonView -> presenter.onClickRefreshButton()
+            R.id.refreshButtonView -> presenter.resendDetailsRequest()
         }
     }
 
@@ -72,7 +71,7 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
         presenter.state = savedInstanceState?.getString(SAVED_COUNTRY_DATA)
 
-        presenter.onDisplayCountryDetailsRequest(countryName)
+        presenter.provideCountryDetails(countryName)
     }
 
     override fun centerMap(latLng: LatLng, zoom: Float) {

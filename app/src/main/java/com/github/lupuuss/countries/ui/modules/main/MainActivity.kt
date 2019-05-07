@@ -40,7 +40,7 @@ class MainActivity : DynamicContentActivity(), MainView, View.OnClickListener, S
     override fun onClick(p0: View?) {
 
         when (p0!!.id) {
-            R.id.refreshButtonView -> presenter.onClickRefreshButton()
+            R.id.refreshButtonView -> presenter.refreshCountriesList()
         }
     }
 
@@ -75,7 +75,7 @@ class MainActivity : DynamicContentActivity(), MainView, View.OnClickListener, S
 
     override fun onQueryTextChange(newText: String?): Boolean {
 
-        presenter.onQueryTextChanged(newText)
+        presenter.filterCountriesList(newText)
         return true
     }
 
@@ -94,7 +94,7 @@ class MainActivity : DynamicContentActivity(), MainView, View.OnClickListener, S
 
 
     override fun onCountryClick(view: View, name: String, position: Int) {
-        presenter.onCountryClick(name)
+        presenter.navigateToCountryDetails(name)
     }
 
     override fun navigateToCountryDetails(name: String) {

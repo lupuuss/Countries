@@ -43,11 +43,12 @@ class MainPresenter @Inject constructor(
 
             view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
         }
+
         view?.isErrorMessageVisible = true
         view?.isProgressBarVisible = false
     }
 
-    fun onClickRefreshButton() {
+    fun refreshCountriesList() {
 
         view?.clearCountriesList()
         view?.isErrorMessageVisible = false
@@ -55,12 +56,12 @@ class MainPresenter @Inject constructor(
         countriesManager.refreshList()
     }
 
-    fun onQueryTextChanged(newText: String?) {
+    fun filterCountriesList(newText: String?) {
 
         view?.filterCountriesList(newText ?: "")
     }
 
-    fun onCountryClick(name: String) {
+    fun navigateToCountryDetails(name: String) {
         view?.navigateToCountryDetails(name)
     }
 }

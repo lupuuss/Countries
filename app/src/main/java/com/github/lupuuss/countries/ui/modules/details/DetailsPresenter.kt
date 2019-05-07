@@ -34,7 +34,7 @@ class DetailsPresenter @Inject constructor(
             .subscribe(this)
     }
 
-    fun onDisplayCountryDetailsRequest(countryName: String) {
+    fun provideCountryDetails(countryName: String) {
 
         // if state is saved don't call API
 
@@ -82,7 +82,7 @@ class DetailsPresenter @Inject constructor(
         subscription?.dispose()
     }
 
-    fun onClickRefreshButton() {
+    fun resendDetailsRequest() {
 
         lastRequest?.let {
 

@@ -61,9 +61,9 @@ class MainPresenterTestInternetAvailable {
     }
 
     @Test
-    fun onClickRefreshButton_shouldCauseListRefresh() {
+    fun refreshCountriesList() {
 
-        presenter.onClickRefreshButton()
+        presenter.refreshCountriesList()
 
         verify(view, times(1)).isProgressBarVisible = true
         verify(view, times(1)).isErrorMessageVisible = false
@@ -71,9 +71,9 @@ class MainPresenterTestInternetAvailable {
     }
 
     @Test
-    fun onQueryTextChanged_shouldFilterView() {
+    fun filterCountriesList() {
 
-        presenter.onQueryTextChanged("sample")
+        presenter.filterCountriesList("sample")
 
         verify(view, times(1)).filterCountriesList(eq("sample"))
     }
