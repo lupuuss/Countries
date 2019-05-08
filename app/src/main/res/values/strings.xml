@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Countries</string>
-    <string name="noInternetConnection">No internet connection.</string>
+    <string name="no_internet_connection">No internet connection.</string>
     <string name="refresh">Refresh</string>
-    <string name="somethingGoesWrong">Something goes wrong…</string>
+    <string name="something_goes_wrong">Something goes wrong…</string>
     <string name="search">Search…</string>
     <string name="details">Details</string>
     <string name="population"><b>Population:</b></string>
@@ -10,14 +10,14 @@
     <string name="area"><b>Area:</b></string>
     <string name="gini"><b>Gini ratio:</b></string>
     <string name="demonym"><b>Demonym:</b></string>
-    <string name="countryFlag">Country flag</string>
+    <string name="country_flag">Country flag</string>
     <string name="region"><b>Region:</b></string>
     <string name="currency"><b>Currency:</b></string>
     <string name="domain"><b>Domain:</b></string>
     <string name="languages"><b>Languages:</b></string>
     <string name="codes"><b>Country codes:</b></string>
-    <string name="callingCode"><b>Calling codes:</b></string>
-    <string name="regionalBlocks"><b>Regional blocks:</b></string>
+    <string name="calling_code"><b>Calling codes:</b></string>
+    <string name="regional_blocks"><b>Regional blocks:</b></string>
     <string name="timezones"><b>Timezones:</b></string>
     <string name="borders"><b>Borders:</b></string>
 </resources>

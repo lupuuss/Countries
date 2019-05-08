@@ -176,7 +176,7 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
     private fun RawCountryDetails.toCountryDetailsMap() = mapOf(
             "capital" to capital,
             "region" to createRegionString(this),
-            "regionalBlocks" to flatList(regionalBlocs, RawCountryDetails.RegionalBloc::name),
+            "regional_blocks" to flatList(regionalBlocs, RawCountryDetails.RegionalBloc::name),
             "area" to (if (area != 0.0) "${formatAny(area)} km2" else " - "),
             "population" to formatAny(population),
             "gini" to "${formatAny(gini)}%",
@@ -185,7 +185,7 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
             "domain" to (topLevelDomain.firstOrNull() ?: ""),
             "languages" to flatList(languages, RawCountryDetails.Language::name),
             "codes" to concatCodes(this),
-            "callingCode" to flatList(callingCodes) { "+$it" },
+            "calling_code" to flatList(callingCodes) { "+$it" },
             "timezones" to flatList(timezones) { it },
             "borders" to flatList(borders) { it }
     )

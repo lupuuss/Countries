@@ -62,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@id/countryNameTextView"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:visibility="visible"
-        tools:text="@string/noInternetConnection"/>
+        tools:text="@string/no_internet_connection"/>
 
     <Button
         android:layout_marginTop="20dp"
@@ -106,7 +106,7 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:padding="1dp"
-                        android:contentDescription="@string/countryFlag" />
+                        android:contentDescription="@string/country_flag" />
                 </FrameLayout>
         </LinearLayout>
     </ScrollView>

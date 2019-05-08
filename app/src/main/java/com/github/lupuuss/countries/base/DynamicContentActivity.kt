@@ -9,7 +9,6 @@ import androidx.core.view.isVisible
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import kotlinx.android.synthetic.main.activity_main.*
-import org.w3c.dom.Text
 
 abstract class DynamicContentActivity : AppCompatActivity(), DynamicContentView {
 
@@ -43,8 +42,8 @@ abstract class DynamicContentActivity : AppCompatActivity(), DynamicContentView 
     override fun showErrorMsg(errorMsg: ErrorMessage) {
 
         errorTextView?.text = when (errorMsg) {
-            ErrorMessage.NO_INTERNET_CONNECTION ->  getString(R.string.noInternetConnection)
-            ErrorMessage.UNKNOWN -> getString(R.string.somethingGoesWrong)
+            ErrorMessage.NO_INTERNET_CONNECTION ->  getString(R.string.no_internet_connection)
+            ErrorMessage.UNKNOWN -> getString(R.string.something_goes_wrong)
         }
     }
 }
