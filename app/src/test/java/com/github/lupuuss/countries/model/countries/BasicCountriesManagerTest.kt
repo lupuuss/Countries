@@ -11,7 +11,7 @@ import org.junit.Test
 
 class BasicCountriesManagerTestRequestOk {
 
-    private val sampleList = listOf(ShortCountry("Example Country", "flag link"))
+    private val sampleList = listOf(ShortCountry("Example Country"))
 
     private val countriesApi: CountriesApi = mock {
         on { getCountries() }.then { SingleJust(sampleList) }
