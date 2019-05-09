@@ -75,6 +75,7 @@ class BasicCountriesManager(
 
         return details
     }
+
     override fun getCountryDetails(countryName: String): Single<List<RawCountryDetails>> {
         return countriesApi
             .getCountryDetails(countryName)
