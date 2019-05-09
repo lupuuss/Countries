@@ -8,7 +8,7 @@ import retrofit2.http.Path
 
 interface CountriesApi {
 
-    @GET("all?fields=name;flag")
+    @GET("all?fields=name;alpha3Code")
     fun getCountries(): Single<List<ShortCountry>>
 
     @GET("name/{name}")

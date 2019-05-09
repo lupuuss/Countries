@@ -53,9 +53,34 @@ class BasicCountriesManager(
         requestCountriesList()
     }
 
+    /**
+     * Changes country codes in borders fields to names.
+     */
+    private fun transformBorder(details: RawCountryDetails): RawCountryDetails {
+
+        val borders = details.borders
+
+        countryList?.let { list ->
+
+            val newBorders = borders.map { border ->
+                val info = list.find {
+                    it.alpha3Code == border
+                }
+
+                info?.name ?: border
+            }
+
+            return RawCountryDetails(details, newBorders)
+        }
+
+        return details
+    }
     override fun getCountryDetails(countryName: String): Single<List<RawCountryDetails>> {
         return countriesApi
             .getCountryDetails(countryName)
+            .map { result ->
+                result.map { transformBorder(it) }
+            }
             .observeOn(schedulersPackage.frontScheduler)
             .subscribeOn(schedulersPackage.backScheduler)
     }

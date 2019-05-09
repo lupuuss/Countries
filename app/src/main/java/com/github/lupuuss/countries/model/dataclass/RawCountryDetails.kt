@@ -77,4 +77,12 @@ class RawCountryDetails(
             return final
         }
     }
+
+    constructor(details: RawCountryDetails, borders: List<String>): this(
+        details.name, details.alpha2Code, details.alpha3Code, details.area, details.capital, details.cioc,
+        details.demonym, details.flag, details.gini, details.nativeName, details.numericCode, details.population,
+        details.region, details.subregion, details.translations, details.altSpellings, borders,
+        details.callingCodes, details.currencies, details.languages, details.latlng, details.regionalBlocs,
+        details.timezones, details.topLevelDomain
+    )
 }
