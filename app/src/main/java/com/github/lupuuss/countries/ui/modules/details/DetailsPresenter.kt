@@ -76,7 +76,9 @@ class DetailsPresenter @Inject constructor(
 
             val mapStatus = environment.isMapAvailable()
 
-            if (mapStatus.statusCode == MapStatus.Code.AVAILABLE && countryDetails.latlng.size < 2) {
+            Timber.d(mapStatus.statusMessage)
+
+            if (mapStatus.statusCode == MapStatus.Code.AVAILABLE && countryDetails.latlng.size >= 2) {
 
                 val latlng = countryDetails.latlng
                 view?.isNoLocationErrorVisible = false
@@ -94,7 +96,7 @@ class DetailsPresenter @Inject constructor(
 
                     view?.showMapsNeedsActionsDialog(mapStatus)
 
-                } else {
+                } else if (mapStatus.statusCode == MapStatus.Code.UNAVAILABLE){
 
                     view?.postMessage(BaseView.Message.GOOGLE_MAPS_UNAVAILABLE)
                 }

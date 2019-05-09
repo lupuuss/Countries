@@ -21,7 +21,7 @@ class CountriesApp : Application(), HasActivityInjector {
         super.onCreate()
         DaggerAppComponent
             .builder()
-            .androidModule(AndroidModule(this))
+            .androidModule(AndroidModule(this.applicationContext))
             .build()
             .inject(this)
     }
