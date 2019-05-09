@@ -58,16 +58,32 @@ class DetailsPresenter @Inject constructor(
 
         result?.let {
 
-            view?.isProgressBarVisible = false
-            view?.isErrorMessageVisible = false
-            view?.isContentVisible = true
+            val countryDetails = it.firstOrNull()
 
-            val countryDetails = it.first()
+            when {
+                countryDetails == null -> {
+
+                    view?.showErrorMsg(ErrorMessage.COUNTRY_NOT_FOUND)
+                    return
+                }
+
+                countryDetails.latlng.isEmpty() -> view?.isNoLocationErrorVisible = true
+
+                else -> {
+
+                    val latlng = countryDetails.latlng
+                    view?.isNoLocationErrorVisible = false
+                    view?.centerMap(LatLng(latlng[0], latlng[1]), calculateZoom(countryDetails))
+
+                }
+            }
 
             view?.displayCountryDetails(countryDetails)
             view?.displayFlag(countryDetails.flag)
-            val latlng = countryDetails.latlng
-            view?.centerMap(LatLng(latlng[0], latlng[1]), calculateZoom(countryDetails))
+
+            view?.isProgressBarVisible = false
+            view?.isErrorMessageVisible = false
+            view?.isContentVisible = true
         }
 
         error?.let {
@@ -83,6 +99,7 @@ class DetailsPresenter @Inject constructor(
 
             view?.isProgressBarVisible = false
             view?.isErrorMessageVisible = true
+            view?.isNoLocationErrorVisible = false
             view?.isContentVisible = false
         }
     }
@@ -99,6 +116,7 @@ class DetailsPresenter @Inject constructor(
             view?.isErrorMessageVisible = false
             view?.isProgressBarVisible = true
             view?.isContentVisible = false
+            view?.isNoLocationErrorVisible = false
             sendRequest(it)
         }
     }

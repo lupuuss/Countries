@@ -15,6 +15,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
 import androidx.core.text.toSpanned
+import androidx.core.view.isVisible
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.base.DynamicContentActivity
 import com.github.lupuuss.countries.kotlin.SafeVar
@@ -49,6 +50,13 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
     override val refreshButton: Button?
         get() = refreshButtonView
+
+    override var isNoLocationErrorVisible = false
+        get () = noLocationErrorMessageView?.isVisible ?: field
+        set(value) {
+            field = value
+            noLocationErrorMessageView?.isVisible = value
+        }
 
     override fun onClick(v: View?) {
 

@@ -12,6 +12,7 @@
         <item name="countriesDividerColor">@color/countriesDividerColor</item>
         <item name="colorPrimaryLight">@color/colorPrimaryLight</item>
         <item name="colorControlNormal">?android:textColor</item>
+        <item name="backgroundColorAlpha">@color/backgroundColorAlpha</item>
     </style>
 
     <style name="AppTheme.ErrorMessage">
@@ -68,5 +69,9 @@
 
     <style name="AppTheme.CountryLabel.Center" parent="AppTheme.CountryLabel">
         <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="AppTheme.ErrorMessageBack">
+        <item name="android:background">@drawable/background_error_message</item>
     </style>
 </resources>

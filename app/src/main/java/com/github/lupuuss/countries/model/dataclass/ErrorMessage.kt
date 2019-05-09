@@ -1,5 +1,5 @@
 package com.github.lupuuss.countries.model.dataclass
 
 enum class ErrorMessage {
-    NO_INTERNET_CONNECTION, UNKNOWN
+    NO_INTERNET_CONNECTION, UNKNOWN, COUNTRY_NOT_FOUND
 }

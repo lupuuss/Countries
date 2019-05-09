@@ -9,4 +9,5 @@ interface DetailsView : DynamicContentView {
     fun displayFlag(flagLink: String)
     fun displayCountryDetails(countryDetails: RawCountryDetails)
     fun centerMap(latLng: LatLng, zoom: Float)
+    var isNoLocationErrorVisible: Boolean
 }

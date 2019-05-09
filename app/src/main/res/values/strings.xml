@@ -20,4 +20,6 @@
     <string name="regional_blocks"><b>Regional blocks:</b></string>
     <string name="timezones"><b>Timezones:</b></string>
     <string name="borders"><b>Borders:</b></string>
+    <string name="no_location">No location for this country</string>
+    <string name="country_not_found">Country not found.</string>
 </resources>

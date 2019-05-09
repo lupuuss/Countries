@@ -8,4 +8,5 @@
     <color name="countriesDividerColor">#DADADA</color>
     <color name="backgroundColor">#FFF</color>
     <color name="colorPrimaryLight">#4D008577</color>
+    <color name="backgroundColorAlpha">#B4FFFFFF</color>
 </resources>

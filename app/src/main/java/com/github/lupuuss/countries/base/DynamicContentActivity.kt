@@ -44,6 +44,7 @@ abstract class DynamicContentActivity : AppCompatActivity(), DynamicContentView 
         errorTextView?.text = when (errorMsg) {
             ErrorMessage.NO_INTERNET_CONNECTION ->  getString(R.string.no_internet_connection)
             ErrorMessage.UNKNOWN -> getString(R.string.something_goes_wrong)
+            ErrorMessage.COUNTRY_NOT_FOUND -> getString(R.string.country_not_found)
         }
     }
 }

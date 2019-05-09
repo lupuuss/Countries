@@ -26,6 +26,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <FrameLayout
+        android:id="@+id/noLocationErrorMessageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/map"
+        app:layout_constraintEnd_toEndOf="@id/map"
+        app:layout_constraintTop_toTopOf="@id/map"
+        app:layout_constraintBottom_toBottomOf="@id/map"
+        tools:visibility="visible"
+        style="@style/AppTheme.ErrorMessageBack">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_location"
+            style="@style/AppTheme.ErrorMessage"/>
+    </FrameLayout>
+
     <TextView
         android:id="@+id/countryNameTextView"
         android:layout_width="0dp"
