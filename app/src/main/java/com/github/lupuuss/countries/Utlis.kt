@@ -19,7 +19,12 @@ fun <T> flatList(list: List<T>, transformer: (T) -> String): String {
     return stringBuilder.toString()
 }
 
-fun formatAny(any: Any): String = NumberFormat.getInstance().format(any)
+fun formatAny(any: Any?, append: String = ""): String {
+
+    return if (any != null)
+        NumberFormat.getInstance().format(any) + append
+    else ""
+}
 
 /**
  * Calculates zoom by interpolation for some country samples
@@ -29,7 +34,7 @@ fun calculateZoom(rawCountryDetails: RawCountryDetails): Float {
     val area = rawCountryDetails.area
 
     return when {
-        area == 0.0 -> 7f
+        area == null || area == 0.0 -> 7f
         area <= 500 -> (11.0024 - 0.00534691 * area).toFloat()
         area in 500.0..28_000.0 -> (8f - 0.000055 * area).toFloat()
         area in 28_000.0..1_000_000.0 -> (6f - 2.0E-6 * area).toFloat()

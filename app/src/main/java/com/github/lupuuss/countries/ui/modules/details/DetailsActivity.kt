@@ -145,7 +145,7 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
             (view as TextView).text = text
 
-            if (value != "") {
+            if (value != null && value != "") {
 
                 view.append(" $value")
             } else {
@@ -159,24 +159,32 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
     private fun createRegionString(countryDetails: RawCountryDetails): String {
 
-        return if (countryDetails.region == "") {
+        val subregion = countryDetails.subregion
+        val region = countryDetails.region
+
+        return if (region == null) {
             "-"
-        } else if (countryDetails.subregion != "" && countryDetails.subregion.contains(countryDetails.region)){
+        } else if (subregion != null && subregion.contains(region)){
 
-            return countryDetails.subregion
+            subregion
 
-        } else if (countryDetails.subregion != "") {
+        } else if (subregion != null) {
 
-            return "${countryDetails.region}, ${countryDetails.subregion}"
+            "$region, $subregion"
 
         } else {
-
-            return countryDetails.region
+            region
         }
     }
 
-    private fun concatCodes(countryDetails: RawCountryDetails): String =
-        "${countryDetails.numericCode}, ${countryDetails.alpha2Code}, ${countryDetails.alpha3Code} "
+    private fun concatCodes(countryDetails: RawCountryDetails): String {
+        var concat = countryDetails.numericCode ?: " - "
+        concat += countryDetails.alpha2Code ?: "-"
+        concat += "/"
+        concat += countryDetails.alpha3Code ?: "-"
+        return concat
+    }
+
 
     /**
      * This function defines country details order
@@ -185,12 +193,12 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
             "capital" to capital,
             "region" to createRegionString(this),
             "regional_blocks" to flatList(regionalBlocs, RawCountryDetails.RegionalBloc::name),
-            "area" to (if (area != 0.0) "${formatAny(area)} km2" else " - "),
+            "area" to  formatAny(area, " km2"),
             "population" to formatAny(population),
-            "gini" to "${formatAny(gini)}%",
+            "gini" to formatAny(gini, "%"),
             "demonym" to demonym,
-            "currency" to (currencies.firstOrNull()?.toCurrencyString() ?: ""),
-            "domain" to (topLevelDomain.firstOrNull() ?: ""),
+            "currency" to currencies.firstOrNull()?.toCurrencyString(),
+            "domain" to topLevelDomain.firstOrNull(),
             "languages" to flatList(languages, RawCountryDetails.Language::name),
             "codes" to concatCodes(this),
             "calling_code" to flatList(callingCodes) { "+$it" },
