@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="330dp"
+        android:layout_width="310dp"
         android:layout_height="0dp"
         tools:context=".ui.modules.details.DetailsActivity"
         app:layout_constraintTop_toBottomOf="@id/detailsToolbar"
