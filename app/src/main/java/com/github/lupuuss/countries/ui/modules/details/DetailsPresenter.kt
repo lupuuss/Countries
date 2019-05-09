@@ -80,7 +80,7 @@ class DetailsPresenter @Inject constructor(
 
             view?.displayCountryDetails(countryDetails)
 
-            view?.displayFlag(countryDetails.flag ?: "")
+            view?.displayFlag(countryDetails.flag)
 
             view?.isProgressBarVisible = false
             view?.isErrorMessageVisible = false

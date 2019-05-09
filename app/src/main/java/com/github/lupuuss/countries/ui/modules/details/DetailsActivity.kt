@@ -15,6 +15,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
 import androidx.core.text.toSpanned
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.base.DynamicContentActivity
@@ -206,9 +207,14 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
             "borders" to flatList(borders) { it }
     )
 
-    override fun displayFlag(flagLink: String) {
+    override fun displayFlag(flagLink: String?) {
 
-        svgLoader.with(this).load(flagLink, flagImage)
+        if (flagLink != null) {
+            svgLoader.with(this).load(flagLink, flagImage)
+        } else {
+
+            imageContainer.isGone = true
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
