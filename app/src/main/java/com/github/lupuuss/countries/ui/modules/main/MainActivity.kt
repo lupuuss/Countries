@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.base.DynamicContentActivity
+import com.github.lupuuss.countries.kotlin.AntiSpam
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import com.github.lupuuss.countries.ui.modules.details.DetailsActivity
 import dagger.android.AndroidInjection
@@ -21,6 +22,9 @@ class MainActivity : DynamicContentActivity(), MainView, View.OnClickListener, S
 
     @Inject
     lateinit var presenter: MainPresenter
+
+    @Inject
+    lateinit var antiSpam: AntiSpam
 
     private var countriesAdapter: FilteredCountriesAdapter = FilteredCountriesAdapter()
 
@@ -39,7 +43,12 @@ class MainActivity : DynamicContentActivity(), MainView, View.OnClickListener, S
     override fun onClick(p0: View?) {
 
         when (p0!!.id) {
-            R.id.refreshButtonView -> presenter.refreshCountriesList()
+            R.id.refreshButtonView -> {
+
+                antiSpam.doAction("MainActivity.onClickRefreshButton", AntiSpam.STANDARD_DELTA) {
+                    presenter.refreshCountriesList()
+                }
+            }
         }
     }
 
@@ -93,7 +102,10 @@ class MainActivity : DynamicContentActivity(), MainView, View.OnClickListener, S
 
 
     override fun onCountryClick(view: View, name: String, position: Int) {
-        presenter.navigateToCountryDetails(name)
+
+        antiSpam.doAction("MainActivity.onCountryClick", AntiSpam.STANDARD_DELTA) {
+            presenter.navigateToCountryDetails(name)
+        }
     }
 
     override fun navigateToCountryDetails(name: String) {

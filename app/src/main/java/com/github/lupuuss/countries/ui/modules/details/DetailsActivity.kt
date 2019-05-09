@@ -20,6 +20,7 @@ import androidx.core.view.isVisible
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.base.BaseView
 import com.github.lupuuss.countries.base.DynamicContentActivity
+import com.github.lupuuss.countries.kotlin.AntiSpam
 import com.github.lupuuss.countries.kotlin.SafeVar
 import com.github.lupuuss.countries.model.environment.AndroidEnvironmentInteractor
 import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
@@ -48,6 +49,9 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
     @Inject
     lateinit var googleApiAvailability: GoogleApiAvailability
 
+    @Inject
+    lateinit var antiSpam: AntiSpam
+
     override val errorTextView: TextView?
         get() = errorMessageTextView
 
@@ -71,7 +75,13 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
         when (v!!.id) {
 
-            R.id.refreshButtonView -> presenter.resendDetailsRequest()
+            R.id.refreshButtonView -> {
+
+                antiSpam.doAction("DetailsActivity.onClickRefreshButton", AntiSpam.STANDARD_DELTA) {
+
+                    presenter.resendDetailsRequest()
+                }
+            }
         }
     }
 
