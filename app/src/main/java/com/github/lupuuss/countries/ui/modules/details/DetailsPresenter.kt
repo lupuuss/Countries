@@ -5,6 +5,7 @@ import com.github.lupuuss.countries.calculateZoom
 import com.github.lupuuss.countries.model.countries.CountriesManager
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
+import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 class DetailsPresenter @Inject constructor(
      private val countriesManager: CountriesManager,
-     private val gson: Gson
+     private val gson: Gson,
+     private val environment: EnvironmentInteractor
 ) : BasePresenter<DetailsView>(), BiConsumer<List<RawCountryDetails>, Throwable> {
 
     private var lastRequest: String? = null
@@ -70,10 +72,18 @@ class DetailsPresenter @Inject constructor(
 
         error?.let {
 
+            if (environment.isNetworkAvailable()) {
+
+                view?.showErrorMsg(ErrorMessage.UNKNOWN)
+
+            } else {
+
+                view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
+            }
+
             view?.isProgressBarVisible = false
             view?.isErrorMessageVisible = true
             view?.isContentVisible = false
-            view?.showErrorMsg(ErrorMessage.UNKNOWN)
         }
     }
 
