@@ -2,8 +2,22 @@ package com.github.lupuuss.countries.model.environment
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 
-class AndroidEnvironmentInteractor(private val context: Context): EnvironmentInteractor {
+class AndroidEnvironmentInteractor(
+    private val context: Context,
+    private val googleApiAvailability: GoogleApiAvailability
+): EnvironmentInteractor {
+
+    class GoogleApiStatus(
+        override val statusCode: MapStatus.Code,
+        val googleApiStatusCode: Int
+        ) : MapStatus {
+
+        override val statusMessage: String?
+            get() = "Google Service code: $googleApiStatusCode"
+    }
 
     override fun isNetworkAvailable(): Boolean {
 
@@ -15,5 +29,17 @@ class AndroidEnvironmentInteractor(private val context: Context): EnvironmentInt
             isAvailable = true
         }
         return isAvailable
+    }
+
+
+    override fun isMapAvailable(): MapStatus {
+
+        val googleStatus = googleApiAvailability.isGooglePlayServicesAvailable(context)
+
+        return when {
+            googleStatus == ConnectionResult.SUCCESS -> GoogleApiStatus(MapStatus.Code.AVAILABLE, googleStatus)
+            googleApiAvailability.isUserResolvableError(googleStatus) -> GoogleApiStatus(MapStatus.Code.NEEDS_USER_ACTIONS, googleStatus)
+            else -> GoogleApiStatus(MapStatus.Code.UNAVAILABLE, googleStatus)
+        }
     }
 }

@@ -18,8 +18,13 @@ import androidx.core.text.toSpanned
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.github.lupuuss.countries.R
+import com.github.lupuuss.countries.base.BaseView
 import com.github.lupuuss.countries.base.DynamicContentActivity
 import com.github.lupuuss.countries.kotlin.SafeVar
+import com.github.lupuuss.countries.model.environment.AndroidEnvironmentInteractor
+import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
+import com.github.lupuuss.countries.model.environment.MapStatus
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -39,6 +44,9 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
     @Inject
     lateinit var svgLoader: SvgLoader
+
+    @Inject
+    lateinit var googleApiAvailability: GoogleApiAvailability
 
     override val errorTextView: TextView?
         get() = errorMessageTextView
@@ -109,6 +117,17 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
     override fun onBackPressed() {
         finish()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+
+        outState?.putString(SAVED_COUNTRY_DATA, presenter.state)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
     }
 
     override fun centerMap(latLng: LatLng, zoom: Float) {
@@ -186,7 +205,6 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
         return concat
     }
 
-
     /**
      * This function defines country details order
      */
@@ -217,19 +235,22 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun showMapsNeedsActionsDialog(mapStatus: MapStatus) {
 
-        outState?.putString(SAVED_COUNTRY_DATA, presenter.state)
-        super.onSaveInstanceState(outState)
-    }
+        if (mapStatus is AndroidEnvironmentInteractor.GoogleApiStatus) {
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.detachView()
+            googleApiAvailability.showErrorDialogFragment(this, mapStatus.googleApiStatusCode, GOOGLE_SERVICES_REQUEST)
+
+        } else {
+
+            postMessage(BaseView.Message.GOOGLE_MAPS_UNAVAILABLE)
+        }
+
     }
 
     companion object {
 
+        const val GOOGLE_SERVICES_REQUEST = 333
         const val COUNTRY_NAME = "countryName"
         private const val SAVED_COUNTRY_DATA = "savedCountryData"
     }

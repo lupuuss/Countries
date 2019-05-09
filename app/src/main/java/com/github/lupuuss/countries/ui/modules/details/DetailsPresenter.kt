@@ -1,15 +1,18 @@
 package com.github.lupuuss.countries.ui.modules.details
 
 import com.github.lupuuss.countries.base.BasePresenter
+import com.github.lupuuss.countries.base.BaseView
 import com.github.lupuuss.countries.calculateZoom
 import com.github.lupuuss.countries.model.countries.CountriesManager
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
 import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
+import com.github.lupuuss.countries.model.environment.MapStatus
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiConsumer
+import timber.log.Timber
 import javax.inject.Inject
 
 class DetailsPresenter @Inject constructor(
@@ -21,20 +24,6 @@ class DetailsPresenter @Inject constructor(
     private var lastRequest: String? = null
     private var subscription: Disposable? = null
     var state: String? = null
-
-    private fun sendRequest(countryName: String) {
-
-        lastRequest = countryName
-
-        subscription?.dispose()
-
-        subscription = countriesManager.getCountryDetails(countryName)
-            .map {
-                state = gson.toJson(it.first())
-                it
-            }
-            .subscribe(this)
-    }
 
     fun provideCountryDetails(countryName: String) {
 
@@ -53,56 +42,93 @@ class DetailsPresenter @Inject constructor(
         sendRequest(countryName)
     }
 
+    private fun sendRequest(countryName: String) {
+
+        lastRequest = countryName
+
+        subscription?.dispose()
+
+        subscription = countriesManager.getCountryDetails(countryName)
+            .map {
+                state = gson.toJson(it.first())
+                it
+            }
+            .subscribe(this)
+    }
+
     override fun accept(result: List<RawCountryDetails>?, error: Throwable?) {
 
+        error?.let {
+
+            displayError(error)
+            return
+        }
 
         result?.let {
 
             val countryDetails = it.firstOrNull()
 
-            when {
-                countryDetails == null -> {
+            if (countryDetails == null) {
 
-                    view?.showErrorMsg(ErrorMessage.COUNTRY_NOT_FOUND)
-                    return
-                }
-
-                countryDetails.latlng.isEmpty() -> view?.isNoLocationErrorVisible = true
-
-                else -> {
-
-                    val latlng = countryDetails.latlng
-                    view?.isNoLocationErrorVisible = false
-                    view?.centerMap(LatLng(latlng[0], latlng[1]), calculateZoom(countryDetails))
-
-                }
+                view?.showErrorMsg(ErrorMessage.COUNTRY_NOT_FOUND)
+                return
             }
 
-            view?.displayCountryDetails(countryDetails)
+            val mapStatus = environment.isMapAvailable()
 
+            if (mapStatus.statusCode == MapStatus.Code.AVAILABLE && countryDetails.latlng.size < 2) {
+
+                val latlng = countryDetails.latlng
+                view?.isNoLocationErrorVisible = false
+                view?.centerMap(LatLng(latlng[0], latlng[1]), calculateZoom(countryDetails))
+
+            } else {
+
+                if (countryDetails.latlng.size < 2) {
+
+                    view?.isNoLocationErrorVisible = true
+
+                }
+
+                if (mapStatus.statusCode == MapStatus.Code.NEEDS_USER_ACTIONS) {
+
+                    view?.showMapsNeedsActionsDialog(mapStatus)
+
+                } else {
+
+                    view?.postMessage(BaseView.Message.GOOGLE_MAPS_UNAVAILABLE)
+                }
+
+            }
+
+
+            view?.displayCountryDetails(countryDetails)
             view?.displayFlag(countryDetails.flag)
 
             view?.isProgressBarVisible = false
             view?.isErrorMessageVisible = false
             view?.isContentVisible = true
         }
+    }
 
-        error?.let {
+    private fun displayError(error: Throwable) {
 
-            if (environment.isNetworkAvailable()) {
+        Timber.e(error)
 
-                view?.showErrorMsg(ErrorMessage.UNKNOWN)
+        if (environment.isNetworkAvailable()) {
 
-            } else {
+            view?.showErrorMsg(ErrorMessage.UNKNOWN)
+            view?.postString(error.localizedMessage)
 
-                view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
-            }
+        } else {
 
-            view?.isProgressBarVisible = false
-            view?.isErrorMessageVisible = true
-            view?.isNoLocationErrorVisible = false
-            view?.isContentVisible = false
+            view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
         }
+
+        view?.isProgressBarVisible = false
+        view?.isErrorMessageVisible = true
+        view?.isNoLocationErrorVisible = false
+        view?.isContentVisible = false
     }
 
     override fun detachView() {
