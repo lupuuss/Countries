@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.lupuuss.countries.R
@@ -101,10 +100,5 @@ class MainActivity : DynamicContentActivity(), MainView, View.OnClickListener, S
         val intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra(DetailsActivity.COUNTRY_NAME, name)
         startActivity(intent)
-    }
-
-    override fun postString(msg: String) {
-
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
     }
 }

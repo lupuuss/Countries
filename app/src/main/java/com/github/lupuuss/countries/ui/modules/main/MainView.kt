@@ -5,7 +5,6 @@ import com.github.lupuuss.countries.base.DynamicContentView
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
 
 interface MainView : DynamicContentView {
-    fun postString(msg: String)
     fun displayCountriesList(countries: List<ShortCountry>)
     fun onClick(p0: View?)
     fun filterCountriesList(query: String)

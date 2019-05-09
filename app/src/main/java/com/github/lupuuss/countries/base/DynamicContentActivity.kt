@@ -10,7 +10,7 @@ import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import kotlinx.android.synthetic.main.activity_main.*
 
-abstract class DynamicContentActivity : AppCompatActivity(), DynamicContentView {
+abstract class DynamicContentActivity : BaseActivity(), DynamicContentView {
 
     protected abstract val errorTextView: TextView?
     protected abstract val progressBar: ProgressBar?
