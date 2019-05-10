@@ -16,7 +16,7 @@ class AndroidEnvironmentInteractor(
         ) : MapStatus {
 
         override val statusMessage: String?
-            get() = "Google Service code: $googleApiStatusCode"
+            get() = "Google Services code: $googleApiStatusCode"
     }
 
     override fun isNetworkAvailable(): Boolean {
