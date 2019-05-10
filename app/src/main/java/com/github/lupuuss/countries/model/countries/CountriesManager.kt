@@ -6,6 +6,8 @@ import io.reactivex.Single
 
 interface CountriesManager {
 
+    class NoDetailsException : Throwable()
+
     interface CountriesListChangedListener {
         fun onCountriesListChanged(countries: List<ShortCountry>)
         fun onCountriesListRequestFail(exception: Throwable)
@@ -13,7 +15,7 @@ interface CountriesManager {
 
     fun provideList()
     fun refreshList()
-    fun getCountryDetails(countryName: String): Single<List<RawCountryDetails>>
+    fun getCountryDetails(countryName: String): Single<RawCountryDetails>
     fun addOnCountriesListChangedListener(onCountriesListChangedListener: CountriesListChangedListener)
     fun removeOnCountriesListChangedListener(onCountriesListChangedListener: CountriesListChangedListener)
 }

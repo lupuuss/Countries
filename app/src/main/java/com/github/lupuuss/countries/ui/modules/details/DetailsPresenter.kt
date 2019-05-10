@@ -19,7 +19,7 @@ class DetailsPresenter @Inject constructor(
      private val countriesManager: CountriesManager,
      private val gson: Gson,
      private val environment: EnvironmentInteractor
-) : BasePresenter<DetailsView>(), BiConsumer<List<RawCountryDetails>, Throwable> {
+) : BasePresenter<DetailsView>(), BiConsumer<RawCountryDetails, Throwable> {
 
     private var lastRequest: String? = null
     private var subscription: Disposable? = null
@@ -35,7 +35,7 @@ class DetailsPresenter @Inject constructor(
 
             // simulate successful response
 
-            this.accept(listOf(gson.fromJson(state, RawCountryDetails::class.java)), null)
+            this.accept(gson.fromJson(state, RawCountryDetails::class.java), null)
             return
         }
 
@@ -50,13 +50,13 @@ class DetailsPresenter @Inject constructor(
 
         subscription = countriesManager.getCountryDetails(countryName)
             .map {
-                state = gson.toJson(it.first())
+                state = gson.toJson(it)
                 it
             }
             .subscribe(this)
     }
 
-    override fun accept(result: List<RawCountryDetails>?, error: Throwable?) {
+    override fun accept(result: RawCountryDetails?, error: Throwable?) {
 
         error?.let {
 
@@ -64,44 +64,13 @@ class DetailsPresenter @Inject constructor(
             return
         }
 
-        result?.let {
-
-            val countryDetails = it.firstOrNull()
-
-            if (countryDetails == null) {
-
-                view?.showErrorMsg(ErrorMessage.COUNTRY_NOT_FOUND)
-                return
-            }
+        result?.let { countryDetails ->
 
             val mapStatus = environment.isMapAvailable()
 
-            Timber.d(mapStatus.statusMessage)
-
-            if (mapStatus.statusCode == MapStatus.Code.AVAILABLE && countryDetails.latlng.size >= 2) {
-
-                val latlng = countryDetails.latlng
-                view?.isNoLocationErrorVisible = false
-                view?.centerMap(LatLng(latlng[0], latlng[1]), calculateZoom(countryDetails))
-
-            } else {
-
-                if (countryDetails.latlng.size < 2) {
-
-                    view?.isNoLocationErrorVisible = true
-
-                }
-
-                if (mapStatus.statusCode == MapStatus.Code.NEEDS_USER_ACTIONS) {
-
-                    view?.showMapsNeedsActionsDialog(mapStatus)
-
-                } else if (mapStatus.statusCode == MapStatus.Code.UNAVAILABLE){
-
-                    view?.postMessage(BaseView.Message.GOOGLE_MAPS_UNAVAILABLE)
-                }
-
-            }
+            // checks if map is available and location for country is provided
+            // if it's not show errors
+            centerOnCountryIfPossible(mapStatus, countryDetails)
 
 
             view?.displayCountryDetails(countryDetails)
@@ -113,18 +82,49 @@ class DetailsPresenter @Inject constructor(
         }
     }
 
+    private fun centerOnCountryIfPossible(mapStatus: MapStatus, countryDetails: RawCountryDetails) {
+
+        Timber.d(mapStatus.statusMessage)
+
+        if (mapStatus.statusCode == MapStatus.Code.AVAILABLE && countryDetails.latlng.size >= 2) {
+
+            val latlng = countryDetails.latlng
+            view?.isNoLocationErrorVisible = false
+            view?.centerMap(LatLng(latlng[0], latlng[1]), calculateZoom(countryDetails))
+            return
+
+        }
+
+        if (countryDetails.latlng.size < 2) {
+
+            view?.isNoLocationErrorVisible = true
+
+        }
+
+        if (mapStatus.statusCode == MapStatus.Code.NEEDS_USER_ACTIONS) {
+
+            view?.showMapsNeedsActionsDialog(mapStatus)
+
+        } else if (mapStatus.statusCode == MapStatus.Code.UNAVAILABLE){
+
+            view?.postMessage(BaseView.Message.GOOGLE_MAPS_UNAVAILABLE)
+        }
+    }
+
     private fun displayError(error: Throwable) {
 
         Timber.e(error)
 
-        if (environment.isNetworkAvailable()) {
+        when {
 
-            view?.showErrorMsg(ErrorMessage.UNKNOWN)
-            view?.postString(error.localizedMessage)
+            environment.isNetworkAvailable() -> {
 
-        } else {
+                view?.showErrorMsg(ErrorMessage.UNKNOWN)
+                view?.postString(error.localizedMessage)
 
-            view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
+            }
+            error is CountriesManager.NoDetailsException -> view?.showErrorMsg(ErrorMessage.COUNTRY_NOT_FOUND)
+            else -> view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
         }
 
         view?.isProgressBarVisible = false

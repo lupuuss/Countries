@@ -76,11 +76,16 @@ class BasicCountriesManager(
         return details
     }
 
-    override fun getCountryDetails(countryName: String): Single<List<RawCountryDetails>> {
+    override fun getCountryDetails(countryName: String): Single<RawCountryDetails> {
         return countriesApi
             .getCountryDetails(countryName)
-            .map { result ->
-                result.map { transformBorder(it) }
+            .flatMap { result ->
+
+                if (result.isEmpty()) {
+                    Single.error(CountriesManager.NoDetailsException())
+                } else {
+                    Single.just(transformBorder(result.first()))
+                }
             }
             .observeOn(schedulersPackage.frontScheduler)
             .subscribeOn(schedulersPackage.backScheduler)
