@@ -44,6 +44,8 @@ fun String.htmlToSpanned(): Spanned {
 
 fun String.boldQuery(query: String): String {
 
+    if (query == "") return this
+
     val strB = StringBuilder()
     this.split(Pattern.compile("((?<=$query)|(?=$query))", Pattern.CASE_INSENSITIVE)).forEach {
 
