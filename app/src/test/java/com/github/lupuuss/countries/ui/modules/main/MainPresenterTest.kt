@@ -68,6 +68,7 @@ class MainPresenterTestInternetAvailable {
         verify(view, times(1)).isProgressBarVisible = true
         verify(view, times(1)).isErrorMessageVisible = false
         verify(countriesManager, times(1)).refreshList()
+        verify(view, times(1)).clearCountriesList()
     }
 
     @Test
@@ -76,6 +77,14 @@ class MainPresenterTestInternetAvailable {
         presenter.filterCountriesList("sample")
 
         verify(view, times(1)).filterCountriesList(eq("sample"))
+    }
+
+    @Test
+    fun navigateToCountryDetails() {
+
+        presenter.navigateToCountryDetails("any")
+
+        verify(view, times(1)).navigateToCountryDetails(eq("any"))
     }
 }
 
