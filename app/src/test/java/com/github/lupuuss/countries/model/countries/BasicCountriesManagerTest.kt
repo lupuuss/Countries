@@ -24,7 +24,9 @@ class BasicCountriesManagerTestRequestOk {
 
     private val countriesApi: CountriesApi = mock {
         on { getCountries() }.then { SingleJust(sampleList) }
-        on { getCountryDetails(any()) }.then { SingleJust(listOf(sampleDetails)) }
+        on { getCountryDetails(eq("Poland")) }.then { SingleJust(listOf(sampleDetails)) }
+        on { getCountryDetails(eq("empty")) }.then {
+            SingleJust(listOf<RawCountryDetails>()) }
     }
     private val countriesManager: BasicCountriesManager =
         BasicCountriesManager(
@@ -96,8 +98,26 @@ class BasicCountriesManagerTestRequestOk {
     fun getCountryDetails_shouldReturnRxWithTransformedBorders() {
 
         countriesManager.provideList()
-        val value = countriesManager.getCountryDetails("Poland").blockingGet()
-        Assert.assertEquals("Poland", value.first().borders.first() )
+        var value: RawCountryDetails? = null
+        countriesManager.getCountryDetails("Poland").subscribe { v ->
+            value = v
+        }
+        Assert.assertEquals("Poland", value!!.borders.first() )
+    }
+
+    @Test
+    fun getCountryDetails_shouldReturnSubscriptionWithError_whenEmptyResult() {
+
+        var error: Throwable? = null
+        var result: RawCountryDetails? = null
+
+        countriesManager.getCountryDetails("empty").subscribe { res, err ->
+            error = err
+            result = res
+        }
+
+        Assert.assertEquals(CountriesManager.NoDetailsException::class, error!!::class)
+        Assert.assertEquals(null, result)
     }
 }
 
