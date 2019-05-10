@@ -60,21 +60,7 @@ fun String.boldQuery(query: String): String {
 
     }
     return strB.toString()
-
-    /*val queryIndex = this.indexOf(query, 0, true)
-
-    if (queryIndex < 0 || query.isEmpty()) {
-
-        return this
-    }
-
-    val pre = this.substring(0, queryIndex)
-    val post = this.substring(queryIndex + query.length)
-    val queryPart = this.substring(queryIndex, queryIndex + query.length)
-
-    return "$pre<b>$queryPart</b>$post"*/
 }
-
 
 /**
  * Calculates zoom by interpolation for some country samples
