@@ -5,7 +5,6 @@ import android.text.Html
 import android.text.Spanned
 import androidx.core.text.HtmlCompat
 import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
-import timber.log.Timber
 import java.lang.StringBuilder
 import java.text.NumberFormat
 import java.util.regex.Pattern
