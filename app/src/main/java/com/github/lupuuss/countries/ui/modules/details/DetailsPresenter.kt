@@ -15,7 +15,7 @@ import io.reactivex.functions.BiConsumer
 import timber.log.Timber
 import javax.inject.Inject
 
-class DetailsPresenter @Inject constructor(
+class DetailsPresenter constructor(
      private val countriesManager: CountriesManager,
      private val gson: Gson,
      private val environment: EnvironmentInteractor

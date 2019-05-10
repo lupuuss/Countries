@@ -7,7 +7,7 @@ import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
 import javax.inject.Inject
 
-class MainPresenter @Inject constructor(
+class MainPresenter constructor(
     private val countriesManager: CountriesManager,
     private val environment: EnvironmentInteractor
 ) : BasePresenter<MainView>(), CountriesManager.CountriesListChangedListener {
