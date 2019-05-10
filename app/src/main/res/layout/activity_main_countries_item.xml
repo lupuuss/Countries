@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-        <variable
-            name="country"
-            type="com.github.lupuuss.countries.model.dataclass.ShortCountry" />
-    </data>
-
-    <TextView
-        android:id="@+id/countryNameTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@{country.name}"
-        tools:text="Poland"
-        tools:ignore="RtlSymmetry"
-        style="@style/AppTheme.CountryText"/>
-</layout>
+<TextView android:id="@+id/countryNameTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:text="Poland"
+    tools:ignore="RtlSymmetry"
+    style="@style/AppTheme.CountryText"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" />

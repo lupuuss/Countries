@@ -1,6 +1,6 @@
 package com.github.lupuuss.countries.model.dataclass
 
-class ShortCountry(
+open class ShortCountry(
     val name: String,
     val alpha3Code: String
 ) {

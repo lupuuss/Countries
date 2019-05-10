@@ -1,13 +1,23 @@
 package com.github.lupuuss.countries.ui.modules.main
 
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.text.toSpanned
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
-import com.github.lupuuss.countries.databinding.ActivityMainCountriesItemBinding
+import com.github.lupuuss.countries.R
+import com.github.lupuuss.countries.boldQuery
+import com.github.lupuuss.countries.htmlToSpanned
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import java.text.Collator
+
+private class ShortCountryQuery(
+    shortCountry: ShortCountry,
+    val displayText: Spanned =  shortCountry.name.toSpanned()
+) : ShortCountry(shortCountry.name, shortCountry.alpha3Code)
 
 class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.ViewHolder>() {
 
@@ -17,56 +27,50 @@ class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.V
 
     var onCountryClickListener: OnCountryClickListener? = null
 
-    class ViewHolder(val binding: ActivityMainCountriesItemBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(shortCountry: ShortCountry) {
-
-            binding.country = shortCountry
-            binding.executePendingBindings()
-        }
-    }
+    class ViewHolder(val countryNameText: TextView) : RecyclerView.ViewHolder(countryNameText)
 
     private val collator = Collator.getInstance()
 
     private var countriesList: List<ShortCountry>? = null
 
-    private val dataSet: SortedList<ShortCountry> = SortedList(ShortCountry::class.java, object : SortedList.Callback<ShortCountry>() {
-
-        override fun areItemsTheSame(item1: ShortCountry?, item2: ShortCountry?): Boolean {
+    private val dataSet: SortedList<ShortCountryQuery> = SortedList(
+        ShortCountryQuery::class.java,
+        object : SortedList.Callback<ShortCountryQuery>() {
+            override fun areItemsTheSame(item1: ShortCountryQuery?, item2: ShortCountryQuery?): Boolean {
 
             return item1 == item2
         }
 
-        override fun onMoved(fromPosition: Int, toPosition: Int) {
-            this@FilteredCountriesAdapter.notifyItemMoved(fromPosition, toPosition)
-        }
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                this@FilteredCountriesAdapter.notifyItemMoved(fromPosition, toPosition)
+            }
 
-        override fun onChanged(position: Int, count: Int) {
-            this@FilteredCountriesAdapter.notifyItemRangeChanged(position, count)
-        }
+            override fun onChanged(position: Int, count: Int) {
+                this@FilteredCountriesAdapter.notifyItemRangeChanged(position, count)
+            }
 
-        override fun onInserted(position: Int, count: Int) {
-            this@FilteredCountriesAdapter.notifyItemRangeInserted(position, count)
-        }
+            override fun onInserted(position: Int, count: Int) {
+                this@FilteredCountriesAdapter.notifyItemRangeInserted(position, count)
+            }
 
-        override fun onRemoved(position: Int, count: Int) {
-            this@FilteredCountriesAdapter.notifyItemRangeRemoved(position, count)
-        }
+            override fun onRemoved(position: Int, count: Int) {
+                this@FilteredCountriesAdapter.notifyItemRangeRemoved(position, count)
+            }
 
-        override fun compare(o1: ShortCountry, o2: ShortCountry): Int {
-            return collator.compare(o1.name, o2.name)
-        }
+            override fun compare(o1: ShortCountryQuery, o2: ShortCountryQuery): Int {
+                return collator.compare(o1.name, o2.name)
+            }
 
-        override fun areContentsTheSame(oldItem: ShortCountry, newItem: ShortCountry): Boolean {
-            return oldItem.name == newItem.name
-        }
+            override fun areContentsTheSame(oldItem: ShortCountryQuery, newItem: ShortCountryQuery): Boolean {
+                return oldItem.displayText == newItem.displayText
+            }
 
     })
 
     fun setCountries(countries: List<ShortCountry>) {
 
         dataSet.clear()
-        dataSet.addAll(countries)
+        dataSet.addAll(countries.map { ShortCountryQuery(it) })
         countriesList = countries
     }
 
@@ -74,7 +78,7 @@ class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.V
 
         if (query == "") {
             dataSet.clear()
-            dataSet.addAll(countriesList ?: emptyList())
+            dataSet.addAll(countriesList?.map { ShortCountryQuery(it) } ?: emptyList())
         } else {
 
             countriesList?.let { notNullList ->
@@ -83,9 +87,8 @@ class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.V
                     it.name.toLowerCase().contains(query.toLowerCase())
                 }.toList()
 
-                dataSet.replaceAll(filtered)
+                dataSet.replaceAll(filtered.map { ShortCountryQuery(it, it.name.boldQuery(query).htmlToSpanned()) })
             }
-
         }
     }
 
@@ -95,20 +98,19 @@ class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.V
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ActivityMainCountriesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_main_countries_item, parent, false)
 
-        return ViewHolder(binding)
+        return ViewHolder(view as TextView)
     }
 
     override fun getItemCount() = dataSet.size()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.bind(dataSet[position])
-        holder.binding.root.setOnClickListener {
+        holder.countryNameText.text = dataSet[position].displayText
+        holder.countryNameText.setOnClickListener {
 
-            onCountryClickListener?.onCountryClick(it, holder.binding.country!!.name, position)
+            onCountryClickListener?.onCountryClick(it, dataSet[position].name, position)
         }
     }
 }

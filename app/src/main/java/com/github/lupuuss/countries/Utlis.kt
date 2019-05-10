@@ -1,8 +1,14 @@
 package com.github.lupuuss.countries
 
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
+import androidx.core.text.HtmlCompat
 import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
+import timber.log.Timber
 import java.lang.StringBuilder
 import java.text.NumberFormat
+import java.util.regex.Pattern
 
 fun <T> flatList(list: List<T>, transformer: (T) -> String): String {
 
@@ -25,6 +31,50 @@ fun formatAny(any: Any?, append: String = ""): String {
         NumberFormat.getInstance().format(any) + append
     else ""
 }
+
+@Suppress("DEPRECATION")
+fun String.htmlToSpanned(): Spanned {
+
+    return if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+        Html.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
+    } else {
+        Html.fromHtml(this)
+    }
+}
+
+fun String.boldQuery(query: String): String {
+
+    val strB = StringBuilder()
+    this.split(Pattern.compile("((?<=$query)|(?=$query))", Pattern.CASE_INSENSITIVE)).forEach {
+
+        if (it.contains(query, true)) {
+
+            strB.append("<b>")
+            strB.append(it)
+            strB.append("</b>")
+
+        } else {
+
+            strB.append(it)
+        }
+
+    }
+    return strB.toString()
+
+    /*val queryIndex = this.indexOf(query, 0, true)
+
+    if (queryIndex < 0 || query.isEmpty()) {
+
+        return this
+    }
+
+    val pre = this.substring(0, queryIndex)
+    val post = this.substring(queryIndex + query.length)
+    val queryPart = this.substring(queryIndex, queryIndex + query.length)
+
+    return "$pre<b>$queryPart</b>$post"*/
+}
+
 
 /**
  * Calculates zoom by interpolation for some country samples
