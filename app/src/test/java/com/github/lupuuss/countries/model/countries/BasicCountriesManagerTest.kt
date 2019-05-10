@@ -1,20 +1,30 @@
 package com.github.lupuuss.countries.model.countries
 
 import com.github.lupuuss.countries.di.SchedulersPackage
+import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.internal.operators.single.SingleError
 import io.reactivex.internal.operators.single.SingleJust
 import io.reactivex.schedulers.Schedulers
+import org.junit.Assert
 
 import org.junit.Test
 
 class BasicCountriesManagerTestRequestOk {
 
-    private val sampleList = listOf(ShortCountry("Example Country"))
+    private val sampleList = listOf(ShortCountry("Poland","POL"))
+    private val sampleDetails: RawCountryDetails = RawCountryDetails(
+        "", "", "", 0.0, "", "",
+        "", "",0.0, "",
+        "", 1, "", "", mock {},
+        listOf(), listOf("POL"), listOf(), mock {}, mock {},
+        listOf(0.0, 0.0), mock {}, listOf(), listOf()
+    )
 
     private val countriesApi: CountriesApi = mock {
         on { getCountries() }.then { SingleJust(sampleList) }
+        on { getCountryDetails(any()) }.then { SingleJust(listOf(sampleDetails)) }
     }
     private val countriesManager: BasicCountriesManager =
         BasicCountriesManager(
@@ -70,6 +80,25 @@ class BasicCountriesManagerTestRequestOk {
         verify(mockedListener, never()).onCountriesListChanged(any())
         verify(mockedListener, never()).onCountriesListRequestFail(any())
     }
+
+    @Test
+    fun refreshList_shouldAlwaysCallAPI() {
+
+        countriesManager.refreshList()
+        verify(countriesApi, times(1)).getCountries()
+
+        countriesManager.refreshList()
+        verify(countriesApi, times(2)).getCountries()
+
+    }
+
+    @Test
+    fun getCountryDetails_shouldReturnRxWithTransformedBorders() {
+
+        countriesManager.provideList()
+        val value = countriesManager.getCountryDetails("Poland").blockingGet()
+        Assert.assertEquals("Poland", value.first().borders.first() )
+    }
 }
 
 class BasicCountriesManagerTestRequestFail {
@@ -84,6 +113,7 @@ class BasicCountriesManagerTestRequestFail {
             countriesApi,
             SchedulersPackage(Schedulers.trampoline(), Schedulers.trampoline())
         )
+
     private val mockedListener: CountriesManager.CountriesListChangedListener = mock {}
 
     @Test
