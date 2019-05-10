@@ -13,7 +13,7 @@ import com.nhaarman.mockitokotlin2.*
 import io.reactivex.internal.operators.single.SingleJust
 import org.junit.Test
 
-import org.junit.Assert.*
+import org.junit.Before
 
 class DetailsPresenterTestRequestMapAvailable {
 
@@ -58,11 +58,17 @@ class DetailsPresenterTestRequestMapAvailable {
         }
     }
 
+    @Before
+    fun setUp() {
+
+        presenter.attachView(view)
+    }
+
     private val presenter = DetailsPresenter(countriesManager, gson, environment)
     @Test
     fun getState_shouldReturnNull_beforeApiResponse() {
 
-        assertEquals(null, presenter.state)
+        given { presenter.state }.willReturn(null)
     }
 
     @Test
@@ -70,20 +76,19 @@ class DetailsPresenterTestRequestMapAvailable {
 
         presenter.provideCountryDetails("any")
 
-        assertEquals("Just json", presenter.state)
+        given { presenter.state }.willReturn("Just json")
     }
 
     @Test
     fun setState() {
         presenter.state = "State"
 
-        assertEquals("State", presenter.state)
+        given { presenter.state }.willReturn("State")
     }
 
     @Test
     fun provideCountryDetails_shouldCallApi_whenStateNull() {
 
-        presenter.attachView(view)
         presenter.state = null
 
         presenter.provideCountryDetails("any")
@@ -95,7 +100,6 @@ class DetailsPresenterTestRequestMapAvailable {
     @Test
     fun provideCountryDetails_shouldUseSavedState_whenStateNotNull() {
 
-        presenter.attachView(view)
         presenter.state = "Any state"
 
         presenter.provideCountryDetails("any")
@@ -106,8 +110,6 @@ class DetailsPresenterTestRequestMapAvailable {
 
     @Test
     fun accept_shouldSetDetails_whenRequestOk() {
-
-        presenter.attachView(view)
 
         presenter.accept(sampleDetailsAllOK, null)
 
@@ -120,8 +122,6 @@ class DetailsPresenterTestRequestMapAvailable {
     @Test
     fun accept_shouldDisplayFlag_whenFlagAvailable() {
 
-        presenter.attachView(view)
-
         presenter.accept(sampleDetailsAllOK, null)
 
         verify(view, times(1)).displayFlag(eq("anyflaglink.com"))
@@ -129,7 +129,6 @@ class DetailsPresenterTestRequestMapAvailable {
 
     @Test
     fun accept_shouldCallDisplayFlagWithNull_whenFlagNotAvailable() {
-        presenter.attachView(view)
 
         presenter.accept(sampleDetailsNoFlag, null)
 
@@ -139,8 +138,6 @@ class DetailsPresenterTestRequestMapAvailable {
     @Test
     fun accept_shouldCenterMap_whenMapAvailable() {
 
-        presenter.attachView(view)
-
         presenter.accept(sampleDetailsAllOK, null)
 
         verify(view, times(1)).centerMap(eq(LatLng(0.0, 0.0)), any())
@@ -148,8 +145,6 @@ class DetailsPresenterTestRequestMapAvailable {
 
     @Test
     fun accept_shouldShowLocationError_whenNoLocation() {
-
-        presenter.attachView(view)
 
         presenter.accept(sampleDetailsNoLocation, null)
 
@@ -214,11 +209,14 @@ class DetailsPresenterTestRequestMapNotAvailable {
 
     private val presenter = DetailsPresenter(countriesManager, gson, environment)
 
+    @Before
+    fun setUp() {
+
+        presenter.attachView(view)
+    }
 
     @Test
     fun accept_shouldPostMapsError_whenMapsNoAvailable() {
-
-        presenter.attachView(view)
 
         presenter.accept(sampleDetailsAllOK, null)
 
@@ -259,11 +257,14 @@ class DetailsPresenterTestRequestMapsNeedsUserActions {
 
     private val presenter = DetailsPresenter(countriesManager, gson, environment)
 
+    @Before
+    fun setUp() {
+
+        presenter.attachView(view)
+    }
 
     @Test
     fun accept_shouldPostMapsError_whenMapsNoAvailable() {
-
-        presenter.attachView(view)
 
         presenter.accept(sampleDetailsAllOK, null)
 
