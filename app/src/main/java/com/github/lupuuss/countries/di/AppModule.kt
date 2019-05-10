@@ -5,13 +5,15 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class AppModule {
+object AppModule {
 
     @Provides
     @AppComponentScope
-    fun providesTimeProvider() = { System.currentTimeMillis() }
+    @JvmStatic
+    fun providesTimeProvider(): () -> Long = { System.currentTimeMillis() }
 
     @Provides
     @AppComponentScope
+    @JvmStatic
     fun providesAntiSpam(timeProvider: () -> Long) = AntiSpam(timeProvider)
 }
