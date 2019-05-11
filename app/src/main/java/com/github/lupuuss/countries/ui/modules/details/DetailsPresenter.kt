@@ -13,7 +13,6 @@ import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiConsumer
 import timber.log.Timber
-import javax.inject.Inject
 
 class DetailsPresenter constructor(
      private val countriesManager: CountriesManager,
@@ -119,12 +118,12 @@ class DetailsPresenter constructor(
 
             environment.isNetworkAvailable() -> {
 
-                view?.showErrorMsg(ErrorMessage.UNKNOWN)
+                view?.setErrorMsg(ErrorMessage.UNKNOWN)
                 view?.postString(error.localizedMessage)
 
             }
-            error is CountriesManager.NoDetailsException -> view?.showErrorMsg(ErrorMessage.COUNTRY_NOT_FOUND)
-            else -> view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
+            error is CountriesManager.NoDetailsException -> view?.setErrorMsg(ErrorMessage.COUNTRY_NOT_FOUND)
+            else -> view?.setErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
         }
 
         view?.isProgressBarVisible = false

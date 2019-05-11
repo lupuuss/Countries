@@ -54,7 +54,7 @@ class MainPresenterTestInternetAvailable {
 
         presenter.onCountriesListRequestFail(throwable)
 
-        verify(view, times(1)).showErrorMsg(ErrorMessage.UNKNOWN)
+        verify(view, times(1)).setErrorMsg(ErrorMessage.UNKNOWN)
         verify(view, times(1)).postString(eq("Error"))
         verify(view, times(1)).isProgressBarVisible = false
         verify(view, times(1)).isErrorMessageVisible = true
@@ -107,7 +107,7 @@ class MainPresenterTestInternetNotAvailable {
 
         presenter.onCountriesListRequestFail(throwable)
 
-        verify(view, times(1)).showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
+        verify(view, times(1)).setErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
         verify(view, never()).postString(any())
     }
 }

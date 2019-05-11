@@ -37,7 +37,7 @@ abstract class DynamicContentActivity : BaseActivity(), DynamicContentView {
             content?.isVisible = value
         }
 
-    override fun showErrorMsg(errorMsg: ErrorMessage) {
+    override fun setErrorMsg(errorMsg: ErrorMessage) {
 
         errorTextView?.setText(when (errorMsg) {
             ErrorMessage.NO_INTERNET_CONNECTION ->  R.string.no_internet_connection

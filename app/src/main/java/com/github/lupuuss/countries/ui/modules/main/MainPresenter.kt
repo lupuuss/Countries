@@ -5,7 +5,6 @@ import com.github.lupuuss.countries.model.countries.CountriesManager
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
 import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
-import javax.inject.Inject
 
 class MainPresenter constructor(
     private val countriesManager: CountriesManager,
@@ -36,12 +35,12 @@ class MainPresenter constructor(
 
         if (environment.isNetworkAvailable()) {
 
-            view?.showErrorMsg(ErrorMessage.UNKNOWN)
+            view?.setErrorMsg(ErrorMessage.UNKNOWN)
             view?.postString(exception.localizedMessage)
 
         } else {
 
-            view?.showErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
+            view?.setErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
         }
 
         view?.isErrorMessageVisible = true
