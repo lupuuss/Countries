@@ -5,6 +5,7 @@ import com.github.lupuuss.countries.CountriesApp
 import dagger.Binds
 import dagger.Module
 
+@Suppress("unused")
 @Module
 abstract class BindAppModule {
 

@@ -29,7 +29,7 @@ class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.V
 
     class ViewHolder(val countryNameText: TextView) : RecyclerView.ViewHolder(countryNameText)
 
-    private val collator = Collator.getInstance()
+    internal val collator = Collator.getInstance()
 
     private var countriesList: List<ShortCountry>? = null
 

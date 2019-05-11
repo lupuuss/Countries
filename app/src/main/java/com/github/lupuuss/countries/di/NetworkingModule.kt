@@ -42,5 +42,5 @@ object NetworkingModule {
     @Provides
     @Reusable
     @JvmStatic
-    fun providesSvgLoader() = SvgLoader.pluck()
+    fun providesSvgLoader(): SvgLoader = SvgLoader.pluck()
 }
