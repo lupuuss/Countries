@@ -65,16 +65,11 @@ class RawCountryDetails(
     ) {
         fun toCurrencyString(): String {
 
-            var final = ""
-
-            if (name != "") {
-                final += name
+            if (symbol == "") {
+                return name
             }
 
-            if (symbol != "") {
-                final += " ($symbol)"
-            }
-            return final
+            return "$name ($symbol)"
         }
     }
 
