@@ -8,7 +8,7 @@ import com.github.lupuuss.countries.R
 
 abstract class BaseActivity : AppCompatActivity(), BaseView {
 
-    private lateinit var toast: Toast
+    protected lateinit var toast: Toast
 
     @SuppressLint("ShowToast")
     override fun onCreate(savedInstanceState: Bundle?) {
