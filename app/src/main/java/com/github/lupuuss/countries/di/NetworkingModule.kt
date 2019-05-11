@@ -8,15 +8,17 @@ import com.github.lupuuss.countries.model.countries.CountriesManager
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 object NetworkingModule {
 
     @Provides
-    @AppComponentScope
+    @Singleton
     @JvmStatic
     fun providesCountriesApi(gson: Gson): CountriesApi =
         Retrofit.Builder()
@@ -27,18 +29,18 @@ object NetworkingModule {
             .create(CountriesApi::class.java)
 
     @Provides
-    @AppComponentScope
+    @Reusable
     @JvmStatic
     fun providesGson(): Gson = Gson()
 
     @Provides
-    @AppComponentScope
+    @Singleton
     @JvmStatic
     fun providesCountriesManager(countriesApi: CountriesApi, schedulersPackage: SchedulersPackage): CountriesManager =
         BasicCountriesManager(countriesApi, schedulersPackage)
 
     @Provides
-    @AppComponentScope
+    @Reusable
     @JvmStatic
     fun providesSvgLoader() = SvgLoader.pluck()
 }

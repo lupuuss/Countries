@@ -1,29 +1,19 @@
 package com.github.lupuuss.countries
 
-import android.app.Activity
-import android.app.Application
-import com.github.lupuuss.countries.di.AndroidModule
 import com.github.lupuuss.countries.di.DaggerAppComponent
-import dagger.android.DispatchingAndroidInjector
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import dagger.android.HasActivityInjector
 import timber.log.Timber
-import javax.inject.Inject
 
-class CountriesApp : Application(), HasActivityInjector {
+class CountriesApp : DaggerApplication(), HasActivityInjector {
 
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-
-    override fun activityInjector(): DispatchingAndroidInjector<Activity>? = dispatchingAndroidInjector
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+        DaggerAppComponent.factory().create(this)
 
     override fun onCreate() {
         Timber.plant(Timber.DebugTree())
         super.onCreate()
-        DaggerAppComponent
-            .builder()
-            .androidModule(AndroidModule(this.applicationContext))
-            .build()
-            .inject(this)
     }
 
     companion object {

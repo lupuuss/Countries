@@ -13,8 +13,9 @@ import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiConsumer
 import timber.log.Timber
+import javax.inject.Inject
 
-class DetailsPresenter constructor(
+class DetailsPresenter @Inject constructor(
      private val countriesManager: CountriesManager,
      private val gson: Gson,
      private val environment: EnvironmentInteractor
