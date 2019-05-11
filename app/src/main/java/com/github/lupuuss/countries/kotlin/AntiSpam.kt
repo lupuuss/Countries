@@ -1,7 +1,5 @@
 package com.github.lupuuss.countries.kotlin
 
-import timber.log.Timber
-
 class AntiSpam(private val timeProvider: () -> Long) {
 
     private val lastClick: MutableMap<String, Long> = mutableMapOf()
@@ -11,16 +9,10 @@ class AntiSpam(private val timeProvider: () -> Long) {
         val lastTime = lastClick[identifier]
         val time = timeProvider()
 
-        if (lastTime == null) {
+        if (lastTime == null || time - lastTime > minDeltaTime) {
+
             action()
             lastClick[identifier] = time
-            return
-        }
-
-        if ( time - lastTime > minDeltaTime) {
-
-            lastClick[identifier] = time
-            action()
         }
     }
 
