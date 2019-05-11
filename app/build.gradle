@@ -70,8 +70,6 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:4.2'
-    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
-    kaptTest "com.google.dagger:dagger-android-processor:$dagger_version"
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 

@@ -13,6 +13,7 @@ import com.github.lupuuss.countries.model.dataclass.ShortCountry
 import com.github.lupuuss.countries.ui.modules.details.DetailsActivity
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -27,8 +28,18 @@ class MainActivityTest {
 
     private val activityController = Robolectric.buildActivity(MainActivity::class.java)
 
-    private val activity: MainActivity = activityController.setup().get()
+    private val activity: MainActivity = activityController.get()
 
+    @Before
+    fun setup() {
+
+        activity.antiSpam = mock {
+            on { doAction(any(), any(), any()) }.then { (it.getArgument(2) as ()->Unit).invoke() }
+        }
+
+        activity.presenter = mock { }
+        activityController.setup()
+    }
 
     @Test
     fun onClick_shouldCallRefreshCountriesListOnPresenterThroughAntiSpam() {

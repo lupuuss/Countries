@@ -57,7 +57,14 @@ class DetailsActivityTest {
 
         intent.putExtra(DetailsActivity.COUNTRY_NAME, "Poland")
         activityController = Robolectric.buildActivity(DetailsActivity::class.java, intent)
-        activity = activityController.setup().get()
+        activity = activityController.get()
+        activity.presenter = mock { }
+        activity.svgLoader = mock { }
+        activity.antiSpam = mock {
+            on { doAction(any(), any(), any()) }.then { (it.getArgument(2) as ()->Unit).invoke() }
+        }
+        activity.googleApiAvailability = mock { }
+        activityController.setup()
     }
 
     @Test
