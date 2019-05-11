@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
@@ -41,10 +40,10 @@ abstract class DynamicContentActivity : BaseActivity(), DynamicContentView {
 
     override fun showErrorMsg(errorMsg: ErrorMessage) {
 
-        errorTextView?.text = when (errorMsg) {
-            ErrorMessage.NO_INTERNET_CONNECTION ->  getString(R.string.no_internet_connection)
-            ErrorMessage.UNKNOWN -> getString(R.string.something_goes_wrong)
-            ErrorMessage.COUNTRY_NOT_FOUND -> getString(R.string.country_not_found)
-        }
+        errorTextView?.setText(when (errorMsg) {
+            ErrorMessage.NO_INTERNET_CONNECTION ->  R.string.no_internet_connection
+            ErrorMessage.UNKNOWN -> R.string.something_goes_wrong
+            ErrorMessage.COUNTRY_NOT_FOUND -> R.string.country_not_found
+        })
     }
 }
