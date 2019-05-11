@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.internal.operators.single.SingleJust
+import org.junit.Assert
 import org.junit.Test
 
 import org.junit.Before
@@ -68,7 +69,7 @@ class DetailsPresenterTestRequestMapAvailable {
     @Test
     fun getState_shouldReturnNull_beforeApiResponse() {
 
-        given { presenter.state }.willReturn(null)
+        Assert.assertEquals(null , presenter.state)
     }
 
     @Test
@@ -76,14 +77,14 @@ class DetailsPresenterTestRequestMapAvailable {
 
         presenter.provideCountryDetails("any")
 
-        given { presenter.state }.willReturn("Just json")
+        Assert.assertEquals("Just json", presenter.state)
     }
 
     @Test
     fun setState() {
         presenter.state = "State"
 
-        given { presenter.state }.willReturn("State")
+        Assert.assertEquals("State", presenter.state)
     }
 
     @Test
