@@ -98,14 +98,14 @@ class DynamicContentActivityTest {
 
         activity.setErrorMsg(ErrorMessage.NO_INTERNET_CONNECTION)
 
-        verify(activity.errorTextView, times(1))!!.setText(R.string.no_internet_connection)
+        verify(activity.errorTextView, times(1))!!.setText(R.string.error_no_internet_connection)
 
         activity.setErrorMsg(ErrorMessage.UNKNOWN)
 
-        verify(activity.errorTextView, times(1))!!.setText(R.string.something_goes_wrong)
+        verify(activity.errorTextView, times(1))!!.setText(R.string.error_unknown)
 
         activity.setErrorMsg(ErrorMessage.COUNTRY_NOT_FOUND)
 
-        verify(activity.errorTextView, times(1))!!.setText(R.string.country_not_found)
+        verify(activity.errorTextView, times(1))!!.setText(R.string.error_country_not_found)
     }
 }

@@ -40,9 +40,9 @@ abstract class DynamicContentActivity : BaseActivity(), DynamicContentView {
     override fun setErrorMsg(errorMsg: ErrorMessage) {
 
         errorTextView?.setText(when (errorMsg) {
-            ErrorMessage.NO_INTERNET_CONNECTION ->  R.string.no_internet_connection
-            ErrorMessage.UNKNOWN -> R.string.something_goes_wrong
-            ErrorMessage.COUNTRY_NOT_FOUND -> R.string.country_not_found
+            ErrorMessage.NO_INTERNET_CONNECTION ->  R.string.error_no_internet_connection
+            ErrorMessage.UNKNOWN -> R.string.error_unknown
+            ErrorMessage.COUNTRY_NOT_FOUND -> R.string.error_country_not_found
         })
     }
 }

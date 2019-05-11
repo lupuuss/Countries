@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/no_location"
+            android:text="@string/error_no_location"
             style="@style/AppTheme.ErrorMessage"/>
     </FrameLayout>
 
@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@id/countryNameTextView"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:visibility="visible"
-        tools:text="@string/no_internet_connection"
+        tools:text="@string/error_no_internet_connection"
         style="@style/AppTheme.ErrorMessage"/>
 
     <Button

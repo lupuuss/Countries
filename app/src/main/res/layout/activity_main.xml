@@ -72,7 +72,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:visibility="visible"
-        tools:text="@string/no_internet_connection"
+        tools:text="@string/error_no_internet_connection"
         style="@style/AppTheme.ErrorMessage"/>
 
     <Button

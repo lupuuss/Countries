@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Countries</string>
-    <string name="no_internet_connection">No internet connection.</string>
+    <string name="error_no_internet_connection">No internet connection.</string>
+    <string name="error_no_location">No location for this country</string>
+    <string name="error_country_not_found">Country not found.</string>
+    <string name="error_google_maps_unavailable">Google maps are not available. You probably should check your Google Play Services.</string>
+    <string name="error_unknown">Something goes wrong…</string>
     <string name="refresh">Refresh</string>
-    <string name="something_goes_wrong">Something goes wrong…</string>
     <string name="search">Search…</string>
     <string name="details">Details</string>
     <string name="population"><b>Population:</b></string>
@@ -20,7 +23,4 @@
     <string name="regional_blocks"><b>Regional blocks:</b></string>
     <string name="timezones"><b>Timezones:</b></string>
     <string name="borders"><b>Borders:</b></string>
-    <string name="no_location">No location for this country</string>
-    <string name="country_not_found">Country not found.</string>
-    <string name="error_google_maps_unavailable">Google maps are not available. You probably should check your Google Play Services.</string>
 </resources>
