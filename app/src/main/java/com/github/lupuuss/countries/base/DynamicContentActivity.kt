@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import com.github.lupuuss.countries.R
 import com.github.lupuuss.countries.model.dataclass.ErrorMessage
-import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class DynamicContentActivity : BaseActivity(), DynamicContentView {
 
@@ -17,14 +16,14 @@ abstract class DynamicContentActivity : BaseActivity(), DynamicContentView {
     protected abstract val refreshButton: Button?
 
     override var isProgressBarVisible: Boolean = true
-        get() = countriesProgressBar?.isVisible ?: field
+        get() = progressBar?.isVisible ?: field
         set(value) {
             field = value
             progressBar?.isVisible = value
         }
 
     override var isErrorMessageVisible: Boolean = false
-        get() = errorMessageTextView?.isVisible ?: field
+        get() = errorTextView?.isVisible ?: field
         set(value) {
             field = value
             errorTextView?.isVisible = value
@@ -32,7 +31,7 @@ abstract class DynamicContentActivity : BaseActivity(), DynamicContentView {
         }
 
     override var isContentVisible: Boolean = false
-        get() = true
+        get() = content?.isVisible ?: field
         set(value) {
             field = value
             content?.isVisible = value
