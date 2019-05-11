@@ -8,12 +8,12 @@
     <string name="refresh">Refresh</string>
     <string name="search">Search…</string>
     <string name="details">Details</string>
+    <string name="country_flag">Country flag</string>
     <string name="population"><b>Population:</b></string>
     <string name="capital"><b>Capital:</b></string>
     <string name="area"><b>Area:</b></string>
     <string name="gini"><b>Gini ratio:</b></string>
     <string name="demonym"><b>Demonym:</b></string>
-    <string name="country_flag">Country flag</string>
     <string name="region"><b>Region:</b></string>
     <string name="currency"><b>Currency:</b></string>
     <string name="domain"><b>Domain:</b></string>
