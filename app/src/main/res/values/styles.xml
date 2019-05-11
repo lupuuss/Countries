@@ -21,6 +21,7 @@
     </style>
     <style name="AppTheme.Button">
         <item name="android:background">@drawable/classic_button</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="AppTheme.CountryText">
