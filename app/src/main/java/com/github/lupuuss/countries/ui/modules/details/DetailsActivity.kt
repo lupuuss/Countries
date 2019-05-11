@@ -23,7 +23,6 @@ import com.github.lupuuss.countries.base.DynamicContentActivity
 import com.github.lupuuss.countries.kotlin.AntiSpam
 import com.github.lupuuss.countries.kotlin.SafeVar
 import com.github.lupuuss.countries.model.environment.AndroidEnvironmentInteractor
-import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
 import com.github.lupuuss.countries.model.environment.MapStatus
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -153,7 +152,9 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
         val countryDetailsMap = countryDetails.toCountryDetailsMap()
 
-        if (countryName != countryDetails.nativeName && countryDetails.nativeName != "") {
+        if (countryDetails.nativeName != null &&
+            countryName != countryDetails.nativeName &&
+            countryDetails.nativeName != "") {
 
             countryNameTextView.text = "$countryName (${countryDetails.nativeName})"
         }
@@ -208,7 +209,8 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
     }
 
     private fun concatCodes(countryDetails: RawCountryDetails): String {
-        var concat = countryDetails.numericCode ?: " - "
+        var concat = countryDetails.numericCode ?: "-"
+        concat += " "
         concat += countryDetails.alpha2Code ?: "-"
         concat += "/"
         concat += countryDetails.alpha3Code ?: "-"
@@ -222,7 +224,7 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
             "capital" to capital,
             "region" to createRegionString(this),
             "regional_blocks" to flatList(regionalBlocs, RawCountryDetails.RegionalBloc::name),
-            "area" to  formatAny(area, " km2"),
+            "area" to  formatAny(area, " km²"),
             "population" to formatAny(population),
             "gini" to formatAny(gini, "%"),
             "demonym" to demonym,
@@ -262,6 +264,6 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
         const val GOOGLE_SERVICES_REQUEST = 333
         const val COUNTRY_NAME = "countryName"
-        private const val SAVED_COUNTRY_DATA = "savedCountryData"
+        const val SAVED_COUNTRY_DATA = "savedCountryData"
     }
 }
