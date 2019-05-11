@@ -100,7 +100,6 @@ class MainActivity : DynamicContentActivity(), MainView, View.OnClickListener, S
         countriesAdapter.clearCountries()
     }
 
-
     override fun onCountryClick(view: View, name: String, position: Int) {
 
         antiSpam.doAction("MainActivity.onCountryClick", AntiSpam.STANDARD_DELTA) {
