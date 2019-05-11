@@ -72,6 +72,6 @@
     </style>
 
     <style name="AppTheme.ErrorMessageBack">
-        <item name="android:background">@drawable/background_error_message</item>
+        <item name="android:background">@drawable/error_message_background</item>
     </style>
 </resources>

@@ -170,7 +170,7 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
 
             val view = this@DetailsActivity
                 .layoutInflater
-                .inflate(R.layout.country_detail_text, detailsContainer, false)
+                .inflate(R.layout.country_detail, detailsContainer, false)
 
             val text = getText(id).toSpanned()
 

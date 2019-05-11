@@ -98,7 +98,7 @@ class FilteredCountriesAdapter : RecyclerView.Adapter<FilteredCountriesAdapter.V
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_main_countries_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.countries_list_item, parent, false)
 
         return ViewHolder(view as TextView)
     }
