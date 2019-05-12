@@ -11,7 +11,7 @@ import java.util.regex.Pattern
 
 fun <T> flatList(list: List<T>, transformer: (T) -> String): String {
 
-    if (list.isEmpty()) return ""
+    if (list.isEmpty() || list.first() == "") return ""
 
     val stringBuilder = StringBuilder()
 
