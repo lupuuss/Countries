@@ -19,12 +19,32 @@
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="310dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         tools:context=".ui.modules.details.DetailsActivity"
         app:layout_constraintTop_toBottomOf="@id/detailsToolbar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/divider" />
+
+    <FrameLayout
+        android:id="@+id/noLocationErrorMessageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/map"
+        app:layout_constraintEnd_toEndOf="@id/map"
+        app:layout_constraintTop_toTopOf="@id/map"
+        app:layout_constraintBottom_toBottomOf="@id/map"
+        tools:visibility="visible"
+        style="@style/AppTheme.ErrorMessageBack">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/error_no_location"
+            style="@style/AppTheme.ErrorMessage"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/countryNameTextView"
@@ -34,16 +54,32 @@
         app:layout_constraintTop_toBottomOf="@id/detailsToolbar"
         app:layout_constraintStart_toEndOf="@id/divider"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/AppTheme.CountryLabel.Center"/>
+        style="@style/AppTheme.CountryLabel.Center"
+        tools:ignore="SelectableText" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
     <FrameLayout
         android:id="@+id/divider"
-        android:layout_width="30dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/detailsToolbar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/map"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintStart_toEndOf="@id/guideline2"
         style="@style/AppTheme.Divider"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.46" />
 
     <ProgressBar
         android:id="@+id/detailsProgressBar"
@@ -99,13 +135,12 @@
                     android:id="@+id/imageContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:ignore="UselessParent"
                     style="@style/AppTheme.FlagBack">
 
                     <ImageView
                         android:id="@+id/flagImage"
-                        android:layout_width="180dp"
-                        android:layout_height="100dp"
+                        android:layout_width="160dp"
+                        android:layout_height="90dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/country_flag" />
                 </FrameLayout>

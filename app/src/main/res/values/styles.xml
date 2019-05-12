@@ -16,32 +16,38 @@
     </style>
 
     <style name="AppTheme.ErrorMessage">
+        <item name="android:padding">10dp</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">?textColorDark</item>
+        <item name="android:textAlignment">center</item>
     </style>
     <style name="AppTheme.Button">
         <item name="android:background">@drawable/classic_button</item>
         <item name="android:textAllCaps">true</item>
+        <item name="android:elevation">2dp</item>
     </style>
 
     <style name="AppTheme.CountryText">
         <item name="android:textAlignment">textStart</item>
         <item name="android:textSize">23sp</item>
         <item name="android:textColor">?textColorDark</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:background">@drawable/country_item_background</item>
         <item name="android:foreground">@drawable/ripple_effect</item>
     </style>
 
-    <style name="AppTheme.DetailsText">d
+    <style name="AppTheme.DetailsText">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">?textColorDark</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingStart">15dp</item>
-        <item name="android:paddingEnd">15dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
         <item name="android:background">@drawable/detail_item_background</item>
     </style>
 
@@ -60,8 +66,10 @@
         <item name="android:textSize">23sp</item>
         <item name="android:elevation">6dp</item>
         <item name="android:background">?android:colorPrimary</item>
-        <item name="android:padding">10dp</item>
-    </style>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>    </style>
 
     <style name="AppTheme.Divider">
         <item name="android:elevation">6dp</item>

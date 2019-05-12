@@ -22,10 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         tools:context=".ui.modules.details.DetailsActivity"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detailsToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/guideline"/>
+        app:layout_constraintBottom_toTopOf="@id/guideline" />
 
     <FrameLayout
         android:id="@+id/noLocationErrorMessageView"
@@ -61,7 +61,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="Poland"
-        style="@style/AppTheme.CountryLabel"/>
+        tools:ignore="SelectableText"
+        style="@style/AppTheme.CountryLabel" />
 
     <ProgressBar
         android:id="@+id/detailsProgressBar"
@@ -122,8 +123,8 @@
 
                     <ImageView
                         android:id="@+id/flagImage"
-                        android:layout_width="180dp"
-                        android:layout_height="100dp"
+                        android:layout_width="160dp"
+                        android:layout_height="90dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/country_flag" />
                 </FrameLayout>
