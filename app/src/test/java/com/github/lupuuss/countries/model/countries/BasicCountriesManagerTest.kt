@@ -1,8 +1,12 @@
 package com.github.lupuuss.countries.model.countries
 
 import com.github.lupuuss.countries.di.SchedulersPackage
+import com.github.lupuuss.countries.model.dataclass.BoundingBox
+import com.github.lupuuss.countries.model.dataclass.Coord
 import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
 import com.github.lupuuss.countries.model.dataclass.ShortCountry
+import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
+import com.google.gson.Gson
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.internal.operators.single.SingleError
 import io.reactivex.internal.operators.single.SingleJust
@@ -10,6 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import org.junit.Assert
 
 import org.junit.Test
+import java.lang.reflect.Type
 
 class BasicCountriesManagerTestRequestOk {
 
@@ -28,10 +33,23 @@ class BasicCountriesManagerTestRequestOk {
         on { getCountryDetails(eq("empty")) }.then {
             SingleJust(listOf<RawCountryDetails>()) }
     }
+
+    private val gson: Gson = mock {
+        on { fromJson<Map<String, BoundingBox>>(any<String>(), any<Type>()) }.then {
+            mapOf(
+                "POL" to BoundingBox(Coord(0.0, 0.0), Coord (0.0, 0.0))
+            )
+        }
+    }
+    private val environmentInteractor: EnvironmentInteractor = mock {
+        on { getCountriesBoxesJson() }.then { "" }
+    }
     private val countriesManager: BasicCountriesManager =
         BasicCountriesManager(
             countriesApi,
-            SchedulersPackage(Schedulers.trampoline(), Schedulers.trampoline())
+            SchedulersPackage(Schedulers.trampoline(), Schedulers.trampoline()),
+            environmentInteractor,
+            gson
         )
 
     private val mockedListener: CountriesManager.CountriesListChangedListener = mock {}
@@ -128,10 +146,24 @@ class BasicCountriesManagerTestRequestFail {
     private val countriesApi: CountriesApi = mock {
         on { getCountries() }.then { SingleError<List<ShortCountry>>{sampleError} }
     }
+
+    private val gson: Gson = mock {
+        on { fromJson<Map<String, BoundingBox>>(any<String>(), any<Type>()) }.then {
+            mapOf(
+                "POL" to BoundingBox(Coord(0.0, 0.0), Coord (0.0, 0.0))
+            )
+        }
+    }
+    private val environmentInteractor: EnvironmentInteractor = mock {
+        on { getCountriesBoxesJson() }.then { "" }
+    }
+
     private val countriesManager: BasicCountriesManager =
         BasicCountriesManager(
             countriesApi,
-            SchedulersPackage(Schedulers.trampoline(), Schedulers.trampoline())
+            SchedulersPackage(Schedulers.trampoline(), Schedulers.trampoline()),
+            environmentInteractor,
+            gson
         )
 
     private val mockedListener: CountriesManager.CountriesListChangedListener = mock {}

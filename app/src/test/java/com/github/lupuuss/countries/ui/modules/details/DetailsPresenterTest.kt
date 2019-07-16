@@ -2,6 +2,8 @@ package com.github.lupuuss.countries.ui.modules.details
 
 import com.github.lupuuss.countries.base.BaseView
 import com.github.lupuuss.countries.model.countries.CountriesManager
+import com.github.lupuuss.countries.model.dataclass.BoundingBox
+import com.github.lupuuss.countries.model.dataclass.Coord
 import com.github.lupuuss.countries.model.dataclass.RawCountryDetails
 import com.github.lupuuss.countries.model.environment.AndroidEnvironmentInteractor
 import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
@@ -44,6 +46,10 @@ class DetailsPresenterTestRequestMapAvailable {
 
     private val countriesManager: CountriesManager = mock {
         on { getCountryDetails(any()) }.then { SingleJust<RawCountryDetails>(sampleDetailsAllOK) }
+        on { getBoundingBox(any(), any()) }.then {
+            (it.getArgument<(BoundingBox?) -> Unit>(1))
+                .invoke(BoundingBox(Coord(0.0, 0.0), Coord(0.0, 0.0)))
+        }
     }
 
     private val gson: Gson = mock {
@@ -141,7 +147,7 @@ class DetailsPresenterTestRequestMapAvailable {
 
         presenter.accept(sampleDetailsAllOK, null)
 
-        verify(view, times(1)).centerMap(eq(LatLng(0.0, 0.0)), any())
+        verify(view, times(1)).centerMap(eq(LatLng(0.0, 0.0)), any<LatLng>())
     }
 
     @Test
@@ -193,6 +199,10 @@ class DetailsPresenterTestRequestMapNotAvailable {
 
     private val countriesManager: CountriesManager = mock {
         on { getCountryDetails(any()) }.then { SingleJust<RawCountryDetails>(sampleDetailsAllOK) }
+        on { getBoundingBox(any(), any()) }.then {
+            (it.getArgument<(BoundingBox?) -> Unit>(1))
+                .invoke(BoundingBox(Coord(0.0, 0.0), Coord(0.0, 0.0)))
+        }
     }
 
     private val gson: Gson = mock {
@@ -238,6 +248,10 @@ class DetailsPresenterTestRequestMapsNeedsUserActions {
 
     private val countriesManager: CountriesManager = mock {
         on { getCountryDetails(any()) }.then { SingleJust<RawCountryDetails>(sampleDetailsAllOK) }
+        on { getBoundingBox(any(), any()) }.then {
+            (it.getArgument<(BoundingBox?) -> Unit>(1))
+                .invoke(BoundingBox(Coord(0.0, 0.0), Coord(0.0, 0.0)))
+        }
     }
 
     private val gson: Gson = mock {
