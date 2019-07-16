@@ -10,7 +10,8 @@ Used API: https://restcountries.eu/
 * [RxKotlin](https://github.com/ReactiveX/RxKotlin)
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 * [Gson](https://github.com/google/gson)
-* [Timber](https://github.com/tinsukE/icekick)
+* [Timber](https://github.com/JakeWharton/timber)
+* [AndroidSvgLoader](https://github.com/ar-android/AndroidSvgLoader)
 
 ### Testing
 * [Mockito Kotlin](https://github.com/nhaarman/mockito-kotlin)
