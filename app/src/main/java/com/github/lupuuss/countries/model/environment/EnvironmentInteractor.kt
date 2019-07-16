@@ -18,4 +18,5 @@ interface EnvironmentInteractor {
 
     fun isNetworkAvailable(): Boolean
     fun isMapAvailable(): MapStatus
+    fun getCountriesBoxesJson(): String
 }

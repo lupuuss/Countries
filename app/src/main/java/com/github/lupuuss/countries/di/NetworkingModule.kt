@@ -5,6 +5,7 @@ import com.github.lupuuss.countries.CountriesApp
 import com.github.lupuuss.countries.model.countries.BasicCountriesManager
 import com.github.lupuuss.countries.model.countries.CountriesApi
 import com.github.lupuuss.countries.model.countries.CountriesManager
+import com.github.lupuuss.countries.model.environment.EnvironmentInteractor
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -36,8 +37,13 @@ object NetworkingModule {
     @Provides
     @Singleton
     @JvmStatic
-    fun providesCountriesManager(countriesApi: CountriesApi, schedulersPackage: SchedulersPackage): CountriesManager =
-        BasicCountriesManager(countriesApi, schedulersPackage)
+    fun providesCountriesManager(
+        countriesApi: CountriesApi,
+        schedulersPackage: SchedulersPackage,
+        environmentInteractor: EnvironmentInteractor,
+        gson: Gson
+    ): CountriesManager =
+        BasicCountriesManager(countriesApi, schedulersPackage, environmentInteractor, gson)
 
     @Provides
     @Reusable

@@ -2,6 +2,7 @@ package com.github.lupuuss.countries.model.environment
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.github.lupuuss.countries.R
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 
@@ -19,6 +20,9 @@ class AndroidEnvironmentInteractor(
             get() = "Google Services code: $googleApiStatusCode"
     }
 
+    override fun getCountriesBoxesJson(): String =
+        context.getString(R.string.countries_boxes_json)
+
     override fun isNetworkAvailable(): Boolean {
 
         val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
@@ -26,7 +30,6 @@ class AndroidEnvironmentInteractor(
 
         return networkInfo != null && networkInfo.isConnected
     }
-
 
     override fun isMapAvailable(): MapStatus {
 

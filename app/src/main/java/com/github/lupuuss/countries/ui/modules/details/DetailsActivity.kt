@@ -30,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 
 class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsView, View.OnClickListener {
 
@@ -147,6 +148,14 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
         }
     }
 
+    override fun centerMap(sw: LatLng, ne: LatLng) {
+
+        map.use {
+
+            it.animateCamera(CameraUpdateFactory.newLatLngBounds(LatLngBounds(sw, ne), 2))
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     override fun displayCountryDetails(countryDetails: RawCountryDetails) {
 
@@ -179,6 +188,7 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
             if (value != null && value != "") {
 
                 view.append(" $value")
+
             } else {
 
                 view.append(" -")
@@ -240,7 +250,9 @@ class DetailsActivity : DynamicContentActivity(), OnMapReadyCallback, DetailsVie
     override fun displayFlag(flagLink: String?) {
 
         if (flagLink != null) {
+
             svgLoader.with(this).load(flagLink, flagImage)
+
         } else {
 
             imageContainer.isGone = true

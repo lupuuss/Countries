@@ -90,7 +90,18 @@ class DetailsPresenter @Inject constructor(
 
             val latlng = countryDetails.latlng
             view?.isNoLocationErrorVisible = false
-            view?.centerMap(LatLng(latlng[0], latlng[1]), calculateZoom(countryDetails))
+
+            countriesManager.getBoundingBox(countryDetails.alpha3Code ?: "") {
+
+                if (it != null) {
+
+                    view?.centerMap(LatLng(it.sw.lat, it.sw.lon), LatLng(it.ne.lat, it.ne.lon))
+
+                } else {
+                    Timber.w("No bounding box for ${countryDetails.alpha3Code}")
+                    view?.centerMap(LatLng(latlng[0], latlng[1]), calculateZoom(countryDetails))
+                }
+            }
             return
 
         }
@@ -98,7 +109,6 @@ class DetailsPresenter @Inject constructor(
         if (countryDetails.latlng.size < 2) {
 
             view?.isNoLocationErrorVisible = true
-
         }
 
         if (mapStatus.statusCode == MapStatus.Code.NEEDS_USER_ACTIONS) {

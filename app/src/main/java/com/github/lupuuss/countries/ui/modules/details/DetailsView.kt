@@ -7,9 +7,10 @@ import com.google.android.gms.maps.model.LatLng
 
 interface DetailsView : DynamicContentView {
 
-    fun displayCountryDetails(countryDetails: RawCountryDetails)
-    fun centerMap(latLng: LatLng, zoom: Float)
     var isNoLocationErrorVisible: Boolean
+    fun displayCountryDetails(countryDetails: RawCountryDetails)
     fun displayFlag(flagLink: String?)
     fun showMapsNeedsActionsDialog(mapStatus: MapStatus)
+    fun centerMap(latLng: LatLng, zoom: Float)
+    fun centerMap(sw: LatLng, ne: LatLng)
 }
